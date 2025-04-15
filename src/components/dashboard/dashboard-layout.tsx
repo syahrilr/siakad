@@ -1,12 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import type React from "react";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 import { Search } from "lucide-react";
 
-import { ModeToggle } from "@/components/globals/theme-toggle";
+import { ModeToggle } from "@/components/globals/theme/theme-toggle";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,6 +23,13 @@ import {
 } from "@/components/ui/sidebar";
 
 import { DashboardSidebar } from "./dashboard-sidebar";
+import { UserButton } from "./user-button";
+
+const user = {
+  name: "shadcn",
+  email: "m@example.com",
+  avatar: "https://github.com/shadcn.png",
+};
 
 export default function DashboardLayout({
   children,
@@ -63,12 +69,14 @@ export default function DashboardLayout({
                   <>
                     {/* Render all segments except the last one as links */}
                     {breadcrumbs.slice(0, -1).map((breadcrumb, index) => (
-                      <BreadcrumbItem key={breadcrumb.href}>
-                        <BreadcrumbLink href={breadcrumb.href}>
-                          {breadcrumb.label}
-                        </BreadcrumbLink>
+                      <React.Fragment key={breadcrumb.href}>
+                        <BreadcrumbItem>
+                          <BreadcrumbLink href={breadcrumb.href}>
+                            {breadcrumb.label}
+                          </BreadcrumbLink>
+                        </BreadcrumbItem>
                         <BreadcrumbSeparator />
-                      </BreadcrumbItem>
+                      </React.Fragment>
                     ))}
 
                     {/* Render the last segment as the current page */}
@@ -95,6 +103,7 @@ export default function DashboardLayout({
               />
             </div>
             <ModeToggle />
+            <UserButton user={user} />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>

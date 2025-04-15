@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { GraduationCap, Menu } from "lucide-react";
 
-import { ModeToggle } from "@/components/globals/theme-toggle";
+import { ModeToggle } from "@/components/globals/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,

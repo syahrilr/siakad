@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 
-import { Navbar } from "@/components/globals/navbar";
-import { ThemeProvider } from "@/components/provider/theme-provider";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
+import { ThemeProvider } from "@/components/globals/theme/theme-provider";
 
 import "./globals.css";
 
@@ -22,9 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="light">
-          {children}
-        </ThemeProvider>
+        <NextThemesProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+        >
+          <ThemeProvider>{children}</ThemeProvider>
+        </NextThemesProvider>
       </body>
     </html>
   );

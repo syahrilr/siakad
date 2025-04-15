@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { FileText, Plus, Save, Search, Trash2 } from "lucide-react";
 
+import { Hint } from "@/components/globals/hint";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,6 +41,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Tooltip } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 export function KRSForm() {
   const [selectedCourses, setSelectedCourses] = useState([
@@ -110,6 +113,7 @@ export function KRSForm() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSemester, setSelectedSemester] = useState("all");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const filteredCourses = availableCourses.filter(
     (course) =>
@@ -119,7 +123,9 @@ export function KRSForm() {
   );
 
   const addCourse = (course: any) => {
-    setSelectedCourses([...selectedCourses, course]);
+    if (!selectedCourses.some((c) => c.id === course.id)) {
+      setSelectedCourses([...selectedCourses, course]);
+    }
   };
 
   const removeCourse = (courseId: string) => {
@@ -133,76 +139,48 @@ export function KRSForm() {
     0
   );
 
+  const maxSKS = 24;
+  const sksPercentage = (totalSKS / maxSKS) * 100;
+
   return (
     <>
-      <Card className="border-none shadow-lg">
+      <Card className="border-none shadow-lg transition-all duration-300 hover:shadow-xl">
         <CardHeader className="pb-3">
-          <CardTitle>Mata Kuliah Terpilih</CardTitle>
-          <CardDescription>
-            Total SKS: {totalSKS}/24 (Maksimal SKS yang dapat diambil)
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Kode</TableHead>
-                <TableHead>Mata Kuliah</TableHead>
-                <TableHead className="text-center">SKS</TableHead>
-                <TableHead className="hidden md:table-cell">Jadwal</TableHead>
-                <TableHead className="hidden md:table-cell">Ruang</TableHead>
-                <TableHead className="hidden lg:table-cell">Dosen</TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {selectedCourses.map((course) => (
-                <TableRow key={course.id}>
-                  <TableCell className="font-medium">{course.id}</TableCell>
-                  <TableCell>{course.name}</TableCell>
-                  <TableCell className="text-center">{course.sks}</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {course.day}, {course.time}
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {course.room}
-                  </TableCell>
-                  <TableCell className="hidden lg:table-cell">
-                    {course.lecturer}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-500 hover:bg-red-100 hover:text-red-700"
-                      onClick={() => removeCourse(course.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      <span className="sr-only">Hapus</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-              {selectedCourses.length === 0 && (
-                <TableRow>
-                  <TableCell
-                    colSpan={7}
-                    className="text-muted-foreground py-6 text-center"
-                  >
-                    Belum ada mata kuliah yang dipilih
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-        <CardFooter className="flex justify-between border-t p-4">
-          <div className="flex items-center gap-2">
-            <Dialog>
+          <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+            <div>
+              <CardTitle className="text-xl font-bold">
+                Mata Kuliah Terpilih
+              </CardTitle>
+              <CardDescription>
+                <div className="mt-1 flex items-center gap-2">
+                  <div className="h-2 w-full max-w-[200px] overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                    <div
+                      className={cn(
+                        "h-full rounded-full transition-all duration-500",
+                        sksPercentage > 90
+                          ? "bg-red-500"
+                          : sksPercentage > 75
+                            ? "bg-amber-500"
+                            : "bg-primary"
+                      )}
+                      style={{ width: `${Math.min(sksPercentage, 100)}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium">
+                    {totalSKS}/{maxSKS} SKS
+                  </span>
+                </div>
+              </CardDescription>
+            </div>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
+                <Button
+                  variant="outline"
+                  className="cursor-pointer gap-2 sm:self-end"
+                >
                   <Plus className="h-4 w-4" />
-                  Tambah Mata Kuliah
+                  <span className="hidden sm:inline">Tambah Mata Kuliah</span>
+                  <span className="sm:hidden">Tambah</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[700px]">
@@ -228,7 +206,7 @@ export function KRSForm() {
                       value={selectedSemester}
                       onValueChange={setSelectedSemester}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Pilih semester" />
                       </SelectTrigger>
                       <SelectContent>
@@ -259,7 +237,10 @@ export function KRSForm() {
                       </TableHeader>
                       <TableBody>
                         {filteredCourses.map((course) => (
-                          <TableRow key={course.id}>
+                          <TableRow
+                            key={course.id}
+                            className="group hover:bg-muted/50 cursor-pointer transition-colors"
+                          >
                             <TableCell>
                               <Checkbox
                                 id={`select-${course.id}`}
@@ -279,18 +260,72 @@ export function KRSForm() {
                                 )}
                               />
                             </TableCell>
-                            <TableCell className="font-medium">
+                            <TableCell
+                              className="font-medium"
+                              onClick={() => {
+                                if (
+                                  selectedCourses.some(
+                                    (c) => c.id === course.id
+                                  )
+                                ) {
+                                  removeCourse(course.id);
+                                } else {
+                                  addCourse(course);
+                                }
+                              }}
+                            >
                               {course.id}
                             </TableCell>
-                            <TableCell>
-                              <Label htmlFor={`select-${course.id}`}>
+                            <TableCell
+                              onClick={() => {
+                                if (
+                                  selectedCourses.some(
+                                    (c) => c.id === course.id
+                                  )
+                                ) {
+                                  removeCourse(course.id);
+                                } else {
+                                  addCourse(course);
+                                }
+                              }}
+                            >
+                              <Label
+                                htmlFor={`select-${course.id}`}
+                                className="cursor-pointer"
+                              >
                                 {course.name}
                               </Label>
                             </TableCell>
-                            <TableCell className="text-center">
+                            <TableCell
+                              className="text-center"
+                              onClick={() => {
+                                if (
+                                  selectedCourses.some(
+                                    (c) => c.id === course.id
+                                  )
+                                ) {
+                                  removeCourse(course.id);
+                                } else {
+                                  addCourse(course);
+                                }
+                              }}
+                            >
                               {course.sks}
                             </TableCell>
-                            <TableCell className="hidden md:table-cell">
+                            <TableCell
+                              className="hidden md:table-cell"
+                              onClick={() => {
+                                if (
+                                  selectedCourses.some(
+                                    (c) => c.id === course.id
+                                  )
+                                ) {
+                                  removeCourse(course.id);
+                                } else {
+                                  addCourse(course);
+                                }
+                              }}
+                            >
                               {course.day}, {course.time}
                             </TableCell>
                           </TableRow>
@@ -310,19 +345,128 @@ export function KRSForm() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit">Simpan Perubahan</Button>
+                  <Button
+                    type="submit"
+                    onClick={() => setIsDialogOpen(false)}
+                    className="cursor-pointer"
+                  >
+                    Simpan Perubahan
+                  </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="gap-2">
-              <FileText className="h-4 w-4" />
-              Cetak KRS
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-lg border">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Kode</TableHead>
+                    <TableHead>Mata Kuliah</TableHead>
+                    <TableHead className="text-center">SKS</TableHead>
+                    <TableHead className="hidden md:table-cell">
+                      Jadwal
+                    </TableHead>
+                    <TableHead className="hidden md:table-cell">
+                      Ruang
+                    </TableHead>
+                    <TableHead className="hidden lg:table-cell">
+                      Dosen
+                    </TableHead>
+                    <TableHead className="text-right">Aksi</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {selectedCourses.map((course) => (
+                    <TableRow
+                      key={course.id}
+                      className="group transition-colors"
+                    >
+                      <TableCell className="font-medium">{course.id}</TableCell>
+                      <TableCell className="max-w-[200px] truncate sm:max-w-none">
+                        {course.name}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {course.sks}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {course.day}, {course.time}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {course.room}
+                      </TableCell>
+                      <TableCell className="hidden lg:table-cell">
+                        {course.lecturer}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Hint label="Hapus Mata Kuliah" variant="delete">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="cursor-pointer text-red-500 opacity-70 transition-opacity group-hover:opacity-100 hover:bg-red-100 hover:text-red-700 dark:hover:bg-red-900/30"
+                            onClick={() => removeCourse(course.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Hapus</span>
+                          </Button>
+                        </Hint>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {selectedCourses.length === 0 && (
+                    <TableRow>
+                      <TableCell
+                        colSpan={7}
+                        className="text-muted-foreground py-10 text-center"
+                      >
+                        <div className="flex flex-col items-center justify-center gap-2">
+                          <div className="bg-muted rounded-full p-3">
+                            <Plus className="text-muted-foreground h-6 w-6" />
+                          </div>
+                          <p>Belum ada mata kuliah yang dipilih</p>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="mt-2 cursor-pointer"
+                            onClick={() => setIsDialogOpen(true)}
+                          >
+                            Tambah Mata Kuliah
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter className="flex flex-col justify-between gap-3 border-t p-4 sm:flex-row">
+          <div className="flex w-full justify-center sm:w-auto sm:justify-start">
+            <Button
+              variant="outline"
+              className="w-full cursor-pointer gap-2 sm:w-auto"
+              onClick={() => setIsDialogOpen(true)}
+            >
+              <Plus className="h-4 w-4" />
+              Tambah Mata Kuliah
             </Button>
-            <Button className="gap-2">
+          </div>
+          <div className="flex w-full gap-2 sm:w-auto">
+            <Button
+              variant="outline"
+              className="flex-1 cursor-pointer gap-2 sm:flex-auto"
+            >
+              <FileText className="h-4 w-4" />
+              <span className="hidden sm:inline">Cetak KRS</span>
+              <span className="sm:hidden">Cetak</span>
+            </Button>
+            <Button className="flex-1 cursor-pointer gap-2 sm:flex-auto">
               <Save className="h-4 w-4" />
-              Simpan KRS
+              <span className="hidden sm:inline">Simpan KRS</span>
+              <span className="sm:hidden">Simpan</span>
             </Button>
           </div>
         </CardFooter>

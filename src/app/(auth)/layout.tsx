@@ -4,7 +4,7 @@ import type React from "react";
 
 import { ArrowLeft, GraduationCap } from "lucide-react";
 
-import { ModeToggle } from "@/components/globals/theme-toggle";
+import { ModeToggle } from "@/components/globals/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {

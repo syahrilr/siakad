@@ -1,9 +1,13 @@
 "use client";
 
-import { type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import type React from "react";
+
+import type { LucideIcon } from "lucide-react";
 
 import {
   SidebarGroup,
+  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
@@ -13,6 +17,7 @@ import {
 export function NavMain({
   contents,
   label,
+  pathname,
   ...props
 }: {
   contents: {
@@ -21,22 +26,43 @@ export function NavMain({
     icon: LucideIcon;
   }[];
   label?: string;
+  pathname: string;
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
     <SidebarGroup className="group/collapsible" {...props}>
-      <SidebarGroupLabel>{label}</SidebarGroupLabel>
-      <SidebarMenu>
-        {contents.map((item) => (
-          <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton asChild tooltip={item.title}>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.title}</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
-      </SidebarMenu>
+      {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {contents.map((item) => {
+            const isActive =
+              item.url === "/dashboard"
+                ? pathname === "/dashboard"
+                : pathname === item.url || pathname.startsWith(`${item.url}/`);
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  tooltip={item.title}
+                  isActive={isActive}
+                  className={
+                    isActive
+                      ? "bg-primary dark:bg-primary/90 text-primary font-medium"
+                      : ""
+                  }
+                >
+                  <Link href={item.url}>
+                    <item.icon
+                      className={isActive ? "text-primary dark:text-white" : ""}
+                    />
+                    <span>{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
+        </SidebarMenu>
+      </SidebarGroupContent>
     </SidebarGroup>
   );
 }

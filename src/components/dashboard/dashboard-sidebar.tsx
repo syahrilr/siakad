@@ -1,31 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import * as React from "react";
+import { usePathname } from "next/navigation";
+import type * as React from "react";
 
 import {
   BarChart3,
   Book,
-  BookOpen,
-  Bot,
-  Calendar,
-  CheckCircle,
   ClipboardList,
   Command,
   CreditCard,
   FileText,
-  Frame,
-  GraduationCap,
   Laptop,
   LayoutDashboard,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
   Settings,
-  Settings2,
-  SquareTerminal,
-  icons,
 } from "lucide-react";
 
 import {
@@ -36,17 +24,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
 } from "@/components/ui/sidebar";
 
+import { Separator } from "../ui/separator";
 import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
@@ -56,7 +40,7 @@ const data = {
   ],
   settings: {
     title: "Settings",
-    url: "/settings",
+    url: "/dashboard/settings",
     icon: Settings,
   },
   navContents: [
@@ -96,14 +80,16 @@ const data = {
 export function DashboardSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
+
   return (
     <Sidebar variant="floating" {...props} collapsible="icon">
-      <SidebarHeader>
+      <SidebarHeader className="pb-6">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+            <SidebarMenuButton size="lg" asChild tooltip="SIAKAD">
+              <Link href="/dashboard">
+                <div className="bg-primary text-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -115,16 +101,23 @@ export function DashboardSidebar({
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          <Separator />
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain contents={data.navMain} />
-        <NavMain contents={data.navContents} label="Management Akademik" />
-        <NavMain contents={[data.settings]} className="mt-auto" />
+        <NavMain contents={data.navMain} pathname={pathname} />
+        <NavMain
+          contents={data.navContents}
+          label="Management Akademik"
+          pathname={pathname}
+        />
+        <NavMain
+          contents={[data.settings]}
+          className="mt-auto"
+          pathname={pathname}
+        />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }

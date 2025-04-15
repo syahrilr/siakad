@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 export function KRSSchedule() {
   const schedule = [
@@ -34,43 +35,76 @@ export function KRSSchedule() {
   ];
 
   return (
-    <Card className="border-none shadow-lg">
+    <Card className="border-none shadow-lg transition-all duration-300 hover:shadow-xl">
       <CardHeader className="pb-3">
-        <CardTitle>Jadwal KRS</CardTitle>
-        <CardDescription>Semester Genap 2023/2024</CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-xl font-bold">Jadwal KRS</CardTitle>
+            <CardDescription>Semester Genap 2023/2024</CardDescription>
+          </div>
+          <div className="bg-primary/10 hidden rounded-full p-2 md:flex">
+            <Calendar className="text-primary h-5 w-5" />
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {schedule.map((item, index) => (
             <div
               key={index}
-              className="relative flex items-center gap-4 rounded-lg border p-3 shadow-sm"
+              className={cn(
+                "group relative flex items-center gap-4 overflow-hidden rounded-lg border p-3 shadow-sm transition-all duration-300",
+                item.status === "active" && "bg-primary/5"
+              )}
             >
               <div
-                className={`absolute top-0 left-0 h-full w-1 rounded-l-lg ${
+                className={cn(
+                  "absolute top-0 left-0 h-full w-1.5 rounded-l-lg transition-all duration-300 group-hover:w-2",
                   item.status === "active"
-                    ? "bg-blue-500"
+                    ? "bg-primary"
                     : item.status === "upcoming"
                       ? "bg-gray-300"
                       : "bg-emerald-500"
-                }`}
+                )}
               />
-              <div className="bg-primary/10 flex h-9 w-9 items-center justify-center rounded-full">
-                <Calendar className="text-primary h-5 w-5" />
+              <div
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300",
+                  item.status === "active"
+                    ? "bg-primary/10"
+                    : "bg-gray-100 dark:bg-gray-800"
+                )}
+              >
+                <Calendar
+                  className={cn(
+                    "h-5 w-5 transition-all duration-300",
+                    item.status === "active"
+                      ? "text-primary"
+                      : "text-gray-500 dark:text-gray-400"
+                  )}
+                />
               </div>
               <div className="flex-1">
-                <p className="font-medium">{item.title}</p>
+                <p
+                  className={cn(
+                    "font-medium transition-all duration-300",
+                    item.status === "active" && "text-primary"
+                  )}
+                >
+                  {item.title}
+                </p>
                 <p className="text-muted-foreground text-sm">{item.date}</p>
               </div>
               <Badge
                 variant="outline"
-                className={
+                className={cn(
+                  "transition-all duration-300",
                   item.status === "active"
-                    ? "bg-blue-500/10 text-blue-700 dark:text-blue-400"
+                    ? "bg-primary/10 text-primary"
                     : item.status === "upcoming"
                       ? "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400"
                       : "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-                }
+                )}
               >
                 {item.status === "active"
                   ? "Aktif"
