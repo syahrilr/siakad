@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 
 import { GraduationCap, Menu } from "lucide-react";
@@ -26,6 +27,7 @@ const navigationLinks = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   React.useEffect(() => {
@@ -38,12 +40,11 @@ export function Navbar() {
 
   return (
     <header
-      className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-200",
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         isScrolled
-          ? "bg-white/80 shadow-sm backdrop-blur-md dark:bg-gray-950/80"
+          ? "bg-background/95 shadow-sm backdrop-blur-md"
           : "bg-transparent"
-      )}
+      }`}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
@@ -52,20 +53,26 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <NavigationMenu className="hidden md:flex">
-          <NavigationMenuList>
-            {navigationLinks.map((link) => (
-              <NavigationMenuItem key={link.title}>
-                <NavigationMenuLink
-                  href={link.href}
-                  className={navigationMenuTriggerStyle()}
-                >
-                  {link.title}
-                </NavigationMenuLink>{" "}
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
+        {/* <nav className="hidden items-center gap-6 md:flex">
+          {navigationLinks.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className={`hover:text-primary group relative text-sm font-medium transition-colors ${
+                pathname === item.href
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              }`}
+            >
+              {item.title}
+              <span
+                className={`bg-primary absolute -bottom-1 left-0 h-0.5 transition-all duration-300 ${
+                  pathname === item.href ? "w-full" : "w-0 group-hover:w-full"
+                }`}
+              ></span>
+            </Link>
+          ))}
+        </nav> */}
 
         <div className="hidden items-center gap-4 md:flex">
           <ModeToggle />

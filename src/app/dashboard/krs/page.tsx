@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function KRSPage() {
   return (
-    <div className="flex flex-col space-y-8">
+    <div className="container mx-auto mt-10 flex flex-col space-y-8">
       <DashboardHeader
         heading="Kartu Rencana Studi"
         text="Pengisian KRS Semester Genap 2023/2024"

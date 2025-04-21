@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { SettingsPage } from "@/components/globals/settings";
 
 export const metadata: Metadata = {
-  title: "Settings - Customize Your Experience",
-  description: "Customize your application settings and preferences",
+  title: "SIAKAD | Pengaturan",
+  description: "Pengaturan SIAKAD",
 };
 
 export default function Settings() {

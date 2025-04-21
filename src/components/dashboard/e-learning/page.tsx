@@ -221,7 +221,7 @@ export function ELearningPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto mt-10 space-y-8">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">E-Learning</h2>

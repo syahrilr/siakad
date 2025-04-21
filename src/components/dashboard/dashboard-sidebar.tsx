@@ -113,7 +113,7 @@ export function DashboardSidebar({
         />
         <NavMain
           contents={[data.settings]}
-          className="mt-auto"
+          label="Sistem"
           pathname={pathname}
         />
       </SidebarContent>

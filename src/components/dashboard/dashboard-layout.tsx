@@ -59,7 +59,7 @@ export default function DashboardLayout({
     <SidebarProvider>
       <DashboardSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between px-4 backdrop-blur-md">
+        <header className="bg-sidebar sticky top-2 z-50 mx-4 flex h-16 shrink-0 items-center justify-between rounded-lg border px-4 shadow-sm backdrop-blur-md">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />

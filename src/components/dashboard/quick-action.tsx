@@ -20,30 +20,40 @@ import {
 
 export function QuickActions() {
   const actions = [
-    { icon: BookOpen, label: "KRS", href: "/krs", color: "text-blue-500" },
+    {
+      icon: BookOpen,
+      label: "KRS",
+      href: "/dashboard/krs",
+      color: "text-blue-500",
+    },
     {
       icon: FileText,
       label: "Transkrip",
-      href: "/transkrip",
+      href: "/dashboard/transkrip",
       color: "text-purple-500",
     },
     {
       icon: Calendar,
       label: "Jadwal",
-      href: "/jadwal",
+      href: "/dashboard/jadwal",
       color: "text-emerald-500",
     },
     {
       icon: Clock,
       label: "Presensi",
-      href: "/presensi",
+      href: "/dashboard/presensi",
       color: "text-amber-500",
     },
-    { icon: User, label: "Profil", href: "/profil", color: "text-red-500" },
+    {
+      icon: User,
+      label: "Profil",
+      href: "/dashboard/profil",
+      color: "text-red-500",
+    },
     {
       icon: Settings,
       label: "Pengaturan",
-      href: "/pengaturan",
+      href: "/dashboard/pengaturan",
       color: "text-sky-500",
     },
   ];

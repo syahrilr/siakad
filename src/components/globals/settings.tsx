@@ -95,7 +95,7 @@ export function SettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto mt-10 space-y-8">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Pengaturan</h2>
         <p className="text-muted-foreground">
