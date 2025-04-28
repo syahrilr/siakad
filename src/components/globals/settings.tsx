@@ -57,19 +57,6 @@ export function SettingsPage() {
     textColor: "black",
   }));
 
-  // Font size options
-  const fontSizeOptions = [
-    { value: "small", label: "Small" },
-    { value: "medium", label: "Medium" },
-    { value: "large", label: "Large" },
-  ];
-
-  // Language options
-  const languageOptions = [
-    { value: "english", label: "English" },
-    { value: "indonesian", label: "Indonesian" },
-  ];
-
   if (!mounted) {
     return null;
   }

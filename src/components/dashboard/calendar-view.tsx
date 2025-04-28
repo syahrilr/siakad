@@ -393,13 +393,6 @@ export function CalendarView() {
   };
 
   const editDate = (data: DateSelectArg) => {
-    const obj = {
-      event: {
-        start: data.start,
-        end: data.end,
-      },
-    };
-
     setParams({
       ...defaultParams,
       start: dateFormat(data.start),

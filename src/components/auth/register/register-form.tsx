@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 import { BookOpen, KeyRound, Mail, UserRound } from "lucide-react";
 

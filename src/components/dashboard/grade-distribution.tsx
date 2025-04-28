@@ -48,7 +48,7 @@ export function GradeDistribution() {
     return "E";
   };
 
-  const CustomTooltip = ({ active, payload }: TooltipProps<any, any>) => {
+  const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
     if (active && payload && payload.length) {
       const grade = payload[0].value as number;
       const letterGrade = getGradeLetter(grade);
