@@ -90,7 +90,7 @@ export function Testimonials() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="italic">"{testimonial.quote}"</p>
+                  <p className="italic">{testimonial.quote}</p>
                 </CardContent>
               </Card>
             </SwiperSlide>

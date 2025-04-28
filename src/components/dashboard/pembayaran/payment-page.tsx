@@ -16,7 +16,6 @@ import {
   Wallet,
 } from "lucide-react";
 
-import { Hint } from "@/components/globals/hint";
 import { Button } from "@/components/ui/button";
 import {
   Card,

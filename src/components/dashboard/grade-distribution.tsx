@@ -8,6 +8,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
+  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
@@ -47,18 +48,18 @@ export function GradeDistribution() {
     return "E";
   };
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: TooltipProps<any, any>) => {
     if (active && payload && payload.length) {
-      const grade = payload[0].value;
+      const grade = payload[0].value as number;
       const letterGrade = getGradeLetter(grade);
       const colorClass = getGradeColor(grade);
 
       return (
         <div className="bg-background rounded-lg border p-3 shadow-md">
           <p className="font-medium">{`${payload[0].payload.name}: ${grade}`}</p>
-          <p
-            className={cn("text-sm font-semibold", colorClass)}
-          >{`Grade: ${letterGrade}`}</p>
+          <p className={cn("text-sm font-semibold", colorClass)}>
+            {`Grade: ${letterGrade}`}
+          </p>
         </div>
       );
     }

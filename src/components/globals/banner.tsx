@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type React from "react";
 
 import { cn } from "@/lib/utils";
@@ -70,7 +71,13 @@ export function Banner({
           <div
             className={`absolute inset-0 bg-gradient-to-r ${gradientStyles[gradient]} mix-blend-multiply`}
           />
-          <img src={image} alt={title} className="h-full w-full object-cover" />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
       )}
 

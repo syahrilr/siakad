@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -56,10 +55,13 @@ export function HeroCarousel() {
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop={true}
         onBeforeInit={(swiper) => {
-          // @ts-ignore
-          swiper.params.navigation.prevEl = navigationPrevRef.current;
-          // @ts-ignore
-          swiper.params.navigation.nextEl = navigationNextRef.current;
+          if (
+            swiper.params.navigation &&
+            typeof swiper.params.navigation !== "boolean"
+          ) {
+            swiper.params.navigation.prevEl = navigationPrevRef.current;
+            swiper.params.navigation.nextEl = navigationNextRef.current;
+          }
         }}
         className="h-[600px] md:h-[700px]"
       >

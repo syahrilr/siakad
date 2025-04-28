@@ -450,7 +450,7 @@ export function TranskripPage() {
         </TabsContent>
 
         <TabsContent value="persemester" className="space-y-4">
-          {nilaiPerSemester.map((semester, index) => (
+          {nilaiPerSemester.map((semester) => (
             <Card key={semester.semester}>
               <CardHeader>
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">

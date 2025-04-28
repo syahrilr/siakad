@@ -17,6 +17,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+interface TooltipPayload {
+  name: string;
+  value: number;
+}
+
 export function AttendanceChart() {
   const data = [
     { name: "Hadir", value: 32, color: "#4f46e5" },
@@ -60,7 +65,13 @@ export function AttendanceChart() {
     ) : null;
   };
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: TooltipPayload[];
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-background rounded-lg border p-3 shadow-md">

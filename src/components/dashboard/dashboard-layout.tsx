@@ -68,7 +68,7 @@ export default function DashboardLayout({
                 {breadcrumbs.length > 0 && (
                   <>
                     {/* Render all segments except the last one as links */}
-                    {breadcrumbs.slice(0, -1).map((breadcrumb, index) => (
+                    {breadcrumbs.slice(0, -1).map((breadcrumb) => (
                       <React.Fragment key={breadcrumb.href}>
                         <BreadcrumbItem>
                           <BreadcrumbLink href={breadcrumb.href}>

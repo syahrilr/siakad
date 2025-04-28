@@ -3,6 +3,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 
+import { DateSelectArg, EventClickArg } from "@fullcalendar/core/index.js";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
@@ -76,6 +77,20 @@ interface Course {
   credits?: number;
   type?: "lecture" | "lab" | "tutorial" | "exam" | "deadline";
   status?: "registered" | "pending" | "available" | "full" | "conflict";
+}
+
+interface CourseParams {
+  id: string;
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+  type: string;
+  location: string;
+  lecturer: string;
+  courseCode: string;
+  credits: number;
+  courseType: string;
 }
 
 export function CalendarView() {
@@ -235,7 +250,7 @@ export function CalendarView() {
     courseType: "lecture",
   };
 
-  const [params, setParams] = useState<any>(defaultParams);
+  const [params, setParams] = useState<CourseParams>(defaultParams);
 
   // Simulate loading state
   useEffect(() => {
@@ -318,7 +333,7 @@ export function CalendarView() {
     setAvailableCourses(sampleAvailableCourses);
   }, []);
 
-  const dateFormat = (dt: any) => {
+  const dateFormat = (dt: string | number | Date) => {
     dt = new Date(dt);
     const month =
       dt.getMonth() + 1 < 10 ? "0" + (dt.getMonth() + 1) : dt.getMonth() + 1;
@@ -346,7 +361,7 @@ export function CalendarView() {
     setIsAddCourseModalOpen(true);
   };
 
-  const editCourse = (data: any = null) => {
+  const editCourse = (data: EventClickArg) => {
     if (data) {
       const obj = JSON.parse(JSON.stringify(data.event));
       const course = [...courses, ...availableCourses].find(
@@ -377,7 +392,7 @@ export function CalendarView() {
     }
   };
 
-  const editDate = (data: any) => {
+  const editDate = (data: DateSelectArg) => {
     const obj = {
       event: {
         start: data.start,
@@ -442,7 +457,7 @@ export function CalendarView() {
           lecturer: params.lecturer,
           courseCode: params.courseCode,
           credits: params.credits,
-          type: params.courseType,
+          type: params.courseType as Course["type"],
         };
 
         setCourses(updatedCourses);
@@ -460,7 +475,7 @@ export function CalendarView() {
         lecturer: params.lecturer,
         courseCode: params.courseCode,
         credits: params.credits,
-        type: params.courseType as any,
+        type: params.courseType as Course["type"],
         status: "registered",
       };
 

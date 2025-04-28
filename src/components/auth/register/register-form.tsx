@@ -27,37 +27,6 @@ export function RegisterForm({
   const [nim, setNim] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
-
-  useEffect(() => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (SpeechRecognition) {
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.lang = "id-ID";
-      recognitionRef.current.interimResults = false;
-    } else {
-      console.warn("Web Speech API tidak didukung di browser ini.");
-    }
-  }, []);
-
-  const startListening = (
-    setField: (value: string) => void,
-    label?: string
-  ) => {
-    try {
-      if (recognitionRef.current) {
-        recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
-          const transcript = event.results[0][0].transcript;
-          setField(transcript);
-        };
-        recognitionRef.current.start();
-      }
-    } catch (error) {
-      console.error("Gagal memulai speech recognition:", error);
-    }
-  };
 
   return (
     <AuthLayout
@@ -84,15 +53,6 @@ export function RegisterForm({
                   required
                 />
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => startListening(setFullname)}
-                title="Isi dengan suara"
-              >
-                🎤
-              </Button>
             </div>
           </div>
 
@@ -111,15 +71,6 @@ export function RegisterForm({
                   required
                 />
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => startListening(setNim)}
-                title="Isi dengan suara"
-              >
-                🎤
-              </Button>
             </div>
           </div>
 
@@ -139,15 +90,6 @@ export function RegisterForm({
                   required
                 />
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => startListening(setEmail)}
-                title="Isi dengan suara"
-              >
-                🎤
-              </Button>
             </div>
           </div>
 
@@ -182,15 +124,6 @@ export function RegisterForm({
                   required
                 />
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => startListening(setPassword)}
-                title="Isi dengan suara"
-              >
-                🎤
-              </Button>
             </div>
           </div>
 

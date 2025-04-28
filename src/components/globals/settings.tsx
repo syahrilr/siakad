@@ -2,16 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import {
-  Bell,
-  Check,
-  LayoutDashboard,
-  Monitor,
-  Moon,
-  Settings,
-  Sun,
-  User,
-} from "lucide-react";
+import { Bell, Check, Moon, Sun, User } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import {
@@ -31,13 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
@@ -49,12 +33,8 @@ export function SettingsPage() {
     useColorScheme();
   const { open, setOpen } = useSidebar();
   const [activeTab, setActiveTab] = useState("appearance");
-  const [fontSize, setFontSize] = useState("medium");
-  const [language, setLanguage] = useState("english");
   const [notifications, setNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(false);
-  const [animationsEnabled, setAnimationsEnabled] = useState(true);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   // Ensure we're mounted before accessing theme

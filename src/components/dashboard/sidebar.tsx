@@ -28,6 +28,22 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
+// Define RouteItem interface for type safety
+interface RouteItem {
+  title: string;
+  href: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+}
+
+// Define Route interface
+interface Route {
+  title: string;
+  href?: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  variant?: string;
+  items?: RouteItem[];
+}
+
 interface SidebarProps {
   className?: string;
 }
@@ -46,7 +62,7 @@ export function Sidebar({ className }: SidebarProps) {
     }));
   };
 
-  const routes = [
+  const routes: Route[] = [
     {
       title: "Dashboard",
       href: "/dashboard",
@@ -177,7 +193,7 @@ export function Sidebar({ className }: SidebarProps) {
 }
 
 interface SidebarNavProps {
-  routes: any[];
+  routes: Route[];
   pathname: string;
   openGroups: Record<string, boolean>;
   toggleGroup: (group: string) => void;
@@ -219,7 +235,7 @@ function MobileSidebarNav({
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-1 ml-6 grid gap-1">
-              {route.items.map((item: any, j: number) => (
+              {route.items.map((item: RouteItem, j: number) => (
                 <Link
                   key={j}
                   href={item.href}
@@ -240,7 +256,7 @@ function MobileSidebarNav({
         ) : (
           <Link
             key={i}
-            href={route.href}
+            href={route.href || "#"}
             onClick={() => setIsOpen?.(false)}
             className={cn(
               "flex items-center gap-3 rounded-md px-3 py-2 transition-colors",
@@ -292,7 +308,7 @@ function DesktopSidebarNav({
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-1 ml-6 grid gap-1">
-              {route.items.map((item: any, j: number) => (
+              {route.items.map((item: RouteItem, j: number) => (
                 <Link
                   key={j}
                   href={item.href}
@@ -312,7 +328,7 @@ function DesktopSidebarNav({
         ) : (
           <Link
             key={i}
-            href={route.href}
+            href={route.href || "#"}
             className={cn(
               "flex items-center gap-3 rounded-md px-3 py-2 transition-colors",
               pathname === route.href

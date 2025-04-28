@@ -658,7 +658,7 @@ export function TracerStudyPage() {
                         <span className="text-sm">{alumni.perusahaan}</span>
                       </div>
                       <p className="text-muted-foreground mt-2 text-sm">
-                        "{alumni.testimoni}"
+                        {alumni.testimoni}
                       </p>
                     </div>
                   </CardContent>

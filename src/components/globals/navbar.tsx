@@ -1,22 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import * as React from "react";
 
 import { GraduationCap, Menu } from "lucide-react";
 
 import { ModeToggle } from "@/components/globals/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
 
 const navigationLinks = [
   { title: "Beranda", href: "/" },
@@ -27,7 +18,6 @@ const navigationLinks = [
 ];
 
 export function Navbar() {
-  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   React.useEffect(() => {
@@ -51,29 +41,6 @@ export function Navbar() {
           <GraduationCap className="text-primary h-8 w-8" />
           <span className="text-xl font-bold">SIAKAD</span>
         </Link>
-
-        {/* Desktop Navigation */}
-        {/* <nav className="hidden items-center gap-6 md:flex">
-          {navigationLinks.map((item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className={`hover:text-primary group relative text-sm font-medium transition-colors ${
-                pathname === item.href
-                  ? "text-primary"
-                  : "text-muted-foreground"
-              }`}
-            >
-              {item.title}
-              <span
-                className={`bg-primary absolute -bottom-1 left-0 h-0.5 transition-all duration-300 ${
-                  pathname === item.href ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              ></span>
-            </Link>
-          ))}
-        </nav> */}
-
         <div className="hidden items-center gap-4 md:flex">
           <ModeToggle />
           <Button asChild>
