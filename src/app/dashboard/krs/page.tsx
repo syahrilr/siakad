@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { CalendarView } from "@/components/dashboard/calendar-view";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { KRSForm } from "@/components/dashboard/krs/krs-form";
 import { KRSSchedule } from "@/components/dashboard/krs/krs-schedule";
@@ -22,6 +23,7 @@ export default function KRSPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-7">
         <div className="space-y-6 md:col-span-5">
           <KRSForm />
+          <CalendarView />
         </div>
         <div className="space-y-6 md:col-span-2">
           <KRSStatus />

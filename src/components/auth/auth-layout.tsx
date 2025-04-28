@@ -28,11 +28,11 @@ export default function AuthLayout({
   className,
 }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col-reverse md:flex-row">
-      {/* Image Section */}
+    <div className="flex min-h-screen flex-col md:flex-row">
+      {/* Image Section - Hidden on mobile */}
       <div
         className={cn(
-          "bg-muted relative min-h-[30vh] w-full md:min-h-screen md:w-1/2",
+          "bg-muted relative hidden h-screen md:flex md:w-1/2",
           imagePosition === "right" && "md:order-last"
         )}
       >
@@ -40,13 +40,15 @@ export default function AuthLayout({
           src={image || "/placeholder.svg"}
           alt={imageAlt}
           fill
-          className="object-cover"
+          className="object-cover object-center"
           priority
+          quality={100}
         />
-        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-black/20 p-6 md:p-10">
-          <div className="max-w-md text-white">
-            <h2 className="mb-2 text-2xl font-bold md:text-3xl">SIAKAD</h2>
-            <p className="text-white/80">
+        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-gray-900/80 to-gray-900/30 p-10">
+          <div className="max-w-md space-y-4 text-white">
+            <GraduationCap className="h-10 w-10 text-white/90" />
+            <h2 className="text-4xl font-bold tracking-tight">SIAKAD</h2>
+            <p className="text-lg leading-relaxed text-white/85">
               Sistem Informasi Akademik terpadu untuk mahasiswa, dosen, dan staf
               akademik.
             </p>

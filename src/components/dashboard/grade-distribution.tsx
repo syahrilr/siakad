@@ -19,6 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 export function GradeDistribution() {
   const data = [
@@ -30,19 +31,34 @@ export function GradeDistribution() {
     { name: "Etika Profesi", nilai: 95, color: "#06b6d4" },
   ];
 
+  const getGradeColor = (grade: number) => {
+    if (grade >= 90) return "text-emerald-600 dark:text-emerald-400";
+    if (grade >= 80) return "text-blue-600 dark:text-blue-400";
+    if (grade >= 70) return "text-amber-600 dark:text-amber-400";
+    if (grade >= 60) return "text-orange-600 dark:text-orange-400";
+    return "text-red-600 dark:text-red-400";
+  };
+
+  const getGradeLetter = (grade: number) => {
+    if (grade >= 90) return "A";
+    if (grade >= 80) return "B";
+    if (grade >= 70) return "C";
+    if (grade >= 60) return "D";
+    return "E";
+  };
+
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const grade = payload[0].value;
-      let letterGrade = "F";
-      if (grade >= 90) letterGrade = "A";
-      else if (grade >= 80) letterGrade = "B";
-      else if (grade >= 70) letterGrade = "C";
-      else if (grade >= 60) letterGrade = "D";
+      const letterGrade = getGradeLetter(grade);
+      const colorClass = getGradeColor(grade);
 
       return (
-        <div className="bg-background rounded-lg border p-2 shadow-md">
+        <div className="bg-background rounded-lg border p-3 shadow-md">
           <p className="font-medium">{`${payload[0].payload.name}: ${grade}`}</p>
-          <p className="text-muted-foreground text-sm">{`Grade: ${letterGrade}`}</p>
+          <p
+            className={cn("text-sm font-semibold", colorClass)}
+          >{`Grade: ${letterGrade}`}</p>
         </div>
       );
     }
@@ -50,28 +66,34 @@ export function GradeDistribution() {
   };
 
   return (
-    <Card className="border-none shadow-lg">
-      <CardHeader className="pb-3">
-        <CardTitle>Distribusi Nilai</CardTitle>
+    <Card className="overflow-hidden border shadow-md transition-all duration-300 hover:shadow-lg dark:border-slate-800">
+      <CardHeader className="bg-card pb-3">
+        <CardTitle className="text-lg font-semibold">
+          Distribusi Nilai
+        </CardTitle>
         <CardDescription>Nilai mata kuliah semester ini</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6">
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
               margin={{ top: 20, right: 10, left: 0, bottom: 20 }}
+              barGap={8}
+              barCategoryGap={16}
             >
               <CartesianGrid
                 strokeDasharray="3 3"
                 vertical={false}
-                stroke="#f0f0f0"
+                stroke="var(--border)"
+                opacity={0.4}
               />
               <XAxis
                 dataKey="name"
                 tick={{ fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
+                dy={8}
               />
               <YAxis
                 domain={[0, 100]}
@@ -84,19 +106,36 @@ export function GradeDistribution() {
                 content={<CustomTooltip />}
                 cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
               />
-              <ReferenceLine y={70} stroke="#f43f5e" strokeDasharray="3 3" />
+              <ReferenceLine
+                y={70}
+                stroke="#f43f5e"
+                strokeDasharray="3 3"
+                strokeWidth={2}
+                label={{
+                  value: "Min",
+                  position: "right",
+                  fill: "#f43f5e",
+                  fontSize: 12,
+                }}
+              />
               <Bar
                 dataKey="nilai"
                 radius={[4, 4, 0, 0]}
                 barSize={30}
+                animationDuration={1500}
                 label={{
                   position: "top",
                   fontSize: 11,
-                  fill: "#6b7280",
+                  fill: "var(--muted-foreground)",
+                  formatter: (value: number) => value,
                 }}
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.color}
+                    className="transition-all duration-300 hover:opacity-80 hover:brightness-110"
+                  />
                 ))}
               </Bar>
             </BarChart>

@@ -45,7 +45,7 @@ export function AttendanceChart() {
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-    return (
+    return percent > 0.05 ? (
       <text
         x={x}
         y={y}
@@ -57,16 +57,28 @@ export function AttendanceChart() {
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
-    );
+    ) : null;
+  };
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-background rounded-lg border p-3 shadow-md">
+          <p className="font-medium">{`${payload[0].name}: ${payload[0].value} pertemuan`}</p>
+          <p className="text-muted-foreground text-sm">{`${((payload[0].value / 36) * 100).toFixed(1)}% dari total`}</p>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
-    <Card className="border-none shadow-lg">
-      <CardHeader className="pb-3">
-        <CardTitle>Rekap Kehadiran</CardTitle>
+    <Card className="overflow-hidden border shadow-md transition-all duration-300 hover:shadow-lg dark:border-slate-800">
+      <CardHeader className="bg-card pb-3">
+        <CardTitle className="text-lg font-semibold">Rekap Kehadiran</CardTitle>
         <CardDescription>Total 36 pertemuan</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6">
         <div className="h-[220px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -80,29 +92,28 @@ export function AttendanceChart() {
                 dataKey="value"
                 labelLine={false}
                 label={renderCustomizedLabel}
+                animationDuration={1000}
+                animationBegin={200}
               >
                 {data.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={entry.color}
                     strokeWidth={2}
+                    className="transition-all duration-300 hover:opacity-80"
                   />
                 ))}
               </Pie>
-              <Tooltip
-                formatter={(value, name) => [`${value} pertemuan`, name]}
-                contentStyle={{
-                  borderRadius: "8px",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                  border: "none",
-                }}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Legend
                 layout="horizontal"
                 verticalAlign="bottom"
                 align="center"
                 iconSize={10}
                 iconType="circle"
+                formatter={(value) => (
+                  <span className="text-sm font-medium">{value}</span>
+                )}
               />
             </PieChart>
           </ResponsiveContainer>

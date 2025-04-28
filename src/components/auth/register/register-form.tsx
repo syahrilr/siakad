@@ -63,7 +63,7 @@ export function RegisterForm({
     <AuthLayout
       title="Pendaftaran Akun Baru"
       subtitle="Lengkapi data diri Anda untuk membuat akun baru"
-      image="https://images.pexels.com/photos/10643470/pexels-photo-10643470.jpeg?auto=compress&cs=tinysrgb&w=600"
+      image="/images/auth-image.svg"
       imageAlt="Student Life"
       imagePosition="right"
     >

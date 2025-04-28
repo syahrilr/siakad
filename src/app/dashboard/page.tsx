@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function DashboardPage() {
   return (
-    <div className="container mx-auto mt-10 flex flex-col space-y-8">
+    <div className="container mx-auto mt-10 flex flex-col space-y-8 pb-10">
       <DashboardHeader
         heading="Dashboard Mahasiswa"
         text="Selamat datang kembali, Ahmad Fauzi"
@@ -56,7 +56,7 @@ export default function DashboardPage() {
         <Separator className="mb-6" />
         <div className="grid gap-6 md:gap-8 lg:grid-cols-2">
           <GradeDistribution />
-          {/* <CalendarView /> */}
+          <CalendarView />
         </div>
       </div>
     </div>

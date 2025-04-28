@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 import { ThemeProvider } from "@/components/globals/theme/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
           enableSystem
         >
           <ThemeProvider>{children}</ThemeProvider>
+          <Toaster />
         </NextThemesProvider>
       </body>
     </html>
