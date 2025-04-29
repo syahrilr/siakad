@@ -212,9 +212,6 @@ export default function CourseLessonPage({
   const completedLessons = allLessons.filter(
     (lesson) => lesson.isCompleted
   ).length;
-  const completionPercentage = Math.round(
-    (completedLessons / allLessons.length) * 100
-  );
 
   // Get instructor initials for avatar
   const getInitials = (name: string) => {
