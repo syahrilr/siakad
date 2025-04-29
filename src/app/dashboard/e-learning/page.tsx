@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ELearningPage } from "@/components/dashboard/e-learning/page";
+import { ELearningPage } from "@/components/dashboard/e-learning";
 
 export const metadata: Metadata = {
   title: "E-Learning - Pembelajaran Online",

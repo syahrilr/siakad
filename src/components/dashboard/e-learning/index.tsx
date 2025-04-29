@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import {
@@ -279,7 +280,8 @@ export function ELearningPage() {
                 <Image
                   src={
                     mk.image ||
-                    "https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    "https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" ||
+                    "/placeholder.svg"
                   }
                   alt={mk.nama}
                   width={800}
@@ -317,7 +319,11 @@ export function ELearningPage() {
                     <Clock className="mr-1 h-3 w-3" />
                     {mk.lastAccessed}
                   </div>
-                  <Button size="sm">Lanjutkan</Button>
+                  <Button size="sm" asChild>
+                    <Link href={`/dashboard/e-learning/course/${mk.kode}`}>
+                      Lanjutkan
+                    </Link>
+                  </Button>
                 </CardFooter>
               </Card>
             ))}
@@ -393,7 +399,13 @@ export function ELearningPage() {
                                 <Button variant="outline" size="sm">
                                   Materi
                                 </Button>
-                                <Button size="sm">Masuk Kelas</Button>
+                                <Button size="sm" asChild>
+                                  <Link
+                                    href={`/dashboard/e-learning/course/${mk.kode}`}
+                                  >
+                                    Masuk Kelas
+                                  </Link>
+                                </Button>
                               </div>
                             </div>
                           </CardContent>

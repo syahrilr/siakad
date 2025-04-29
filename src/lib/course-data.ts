@@ -1,0 +1,763 @@
+import type { CourseData } from "./course-types"
+
+// Course data for all courses
+export const courseData: CourseData = {
+  IF2001: {
+    title: "Algoritma dan Pemrograman",
+    instructor: "Dr. Budi Santoso, M.Kom",
+    progress: 75,
+    rating: 4.8,
+    totalStudents: 1245,
+    lastUpdated: "April 2024",
+    sections: [
+      {
+        id: 1,
+        title: "Pengantar Algoritma",
+        isCompleted: true,
+        lessons: [
+          {
+            id: "1-1",
+            title: "Apa itu Algoritma?",
+            duration: "10:15",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-2",
+            title: "Sejarah dan Perkembangan Algoritma",
+            duration: "15:30",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-3",
+            title: "Kuis: Pengantar Algoritma",
+            duration: "10 pertanyaan",
+            isCompleted: true,
+            type: "quiz",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Algoritma Dasar",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "2-1",
+            title: "Struktur Algoritma",
+            duration: "12:45",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "2-2",
+            title: "Algoritma Sequential",
+            duration: "14:20",
+            isCompleted: false,
+            type: "video",
+            isCurrent: true,
+          },
+          {
+            id: "2-3",
+            title: "Algoritma Conditional",
+            duration: "18:10",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "2-4",
+            title: "Latihan: Implementasi Algoritma Dasar",
+            duration: "5 soal",
+            isCompleted: false,
+            type: "assignment",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Struktur Data",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "3-1",
+            title: "Pengenalan Struktur Data",
+            duration: "16:30",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-2",
+            title: "Array dan Linked List",
+            duration: "20:15",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-3",
+            title: "Stack dan Queue",
+            duration: "18:45",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-4",
+            title: "Praktikum: Implementasi Struktur Data",
+            duration: "45:00",
+            isCompleted: false,
+            type: "lab",
+          },
+        ],
+      },
+    ],
+    currentLesson: {
+      title: "Algoritma Sequential",
+      description:
+        "Pada video ini, kita akan mempelajari tentang algoritma sequential, yaitu algoritma yang menjalankan instruksi secara berurutan dari awal hingga akhir. Kita akan membahas karakteristik, contoh, dan implementasi algoritma sequential dalam pemrograman.",
+      resources: [
+        {
+          title: "Slide Algoritma Sequential.pdf",
+          type: "pdf",
+          size: "2.4 MB",
+        },
+        {
+          title: "Contoh Kode Algoritma Sequential.zip",
+          type: "zip",
+          size: "1.8 MB",
+        },
+        {
+          title: "Referensi Tambahan.pdf",
+          type: "pdf",
+          size: "1.2 MB",
+        },
+      ],
+    },
+  },
+  IF2002: {
+    title: "Basis Data",
+    instructor: "Dr. Siti Aminah, M.Sc",
+    progress: 60,
+    rating: 4.7,
+    totalStudents: 1120,
+    lastUpdated: "Maret 2024",
+    sections: [
+      {
+        id: 1,
+        title: "Pengantar Basis Data",
+        isCompleted: true,
+        lessons: [
+          {
+            id: "1-1",
+            title: "Konsep Dasar Basis Data",
+            duration: "12:30",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-2",
+            title: "Sistem Manajemen Basis Data",
+            duration: "14:45",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-3",
+            title: "Kuis: Pengantar Basis Data",
+            duration: "8 pertanyaan",
+            isCompleted: true,
+            type: "quiz",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Model Data",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "2-1",
+            title: "Model Data Hierarkis",
+            duration: "10:15",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "2-2",
+            title: "Model Data Relasional",
+            duration: "16:40",
+            isCompleted: false,
+            type: "video",
+            isCurrent: true,
+          },
+          {
+            id: "2-3",
+            title: "Model Data NoSQL",
+            duration: "18:20",
+            isCompleted: false,
+            type: "video",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "SQL",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "3-1",
+            title: "Pengenalan SQL",
+            duration: "15:10",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-2",
+            title: "SQL DDL",
+            duration: "18:30",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-3",
+            title: "SQL DML",
+            duration: "20:15",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-4",
+            title: "Praktikum: Implementasi SQL",
+            duration: "50:00",
+            isCompleted: false,
+            type: "lab",
+          },
+        ],
+      },
+    ],
+    currentLesson: {
+      title: "Model Data Relasional",
+      description:
+        "Pada video ini, kita akan mempelajari tentang model data relasional, yang merupakan model data paling populer saat ini. Kita akan membahas konsep, karakteristik, dan implementasi model data relasional dalam sistem basis data.",
+      resources: [
+        {
+          title: "Slide Model Data Relasional.pdf",
+          type: "pdf",
+          size: "3.1 MB",
+        },
+        {
+          title: "Contoh Diagram ER.pdf",
+          type: "pdf",
+          size: "1.5 MB",
+        },
+        {
+          title: "Latihan Model Relasional.pdf",
+          type: "pdf",
+          size: "1.8 MB",
+        },
+      ],
+    },
+  },
+  IF2003: {
+    title: "Jaringan Komputer",
+    instructor: "Prof. Ahmad Wijaya, Ph.D",
+    progress: 40,
+    rating: 4.9,
+    totalStudents: 980,
+    lastUpdated: "Februari 2024",
+    sections: [
+      {
+        id: 1,
+        title: "Pengantar Jaringan Komputer",
+        isCompleted: true,
+        lessons: [
+          {
+            id: "1-1",
+            title: "Konsep Dasar Jaringan",
+            duration: "11:45",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-2",
+            title: "Topologi Jaringan",
+            duration: "13:20",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-3",
+            title: "Kuis: Pengantar Jaringan",
+            duration: "10 pertanyaan",
+            isCompleted: true,
+            type: "quiz",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Model OSI",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "2-1",
+            title: "Pengenalan Model OSI",
+            duration: "14:30",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "2-2",
+            title: "Layer Fisik dan Data Link",
+            duration: "17:15",
+            isCompleted: false,
+            type: "video",
+            isCurrent: true,
+          },
+          {
+            id: "2-3",
+            title: "Layer Network dan Transport",
+            duration: "19:40",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "2-4",
+            title: "Layer Session, Presentation, dan Application",
+            duration: "16:25",
+            isCompleted: false,
+            type: "video",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Protokol Jaringan",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "3-1",
+            title: "Protokol TCP/IP",
+            duration: "18:10",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-2",
+            title: "Protokol HTTP dan HTTPS",
+            duration: "15:45",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-3",
+            title: "Praktikum: Konfigurasi Jaringan",
+            duration: "55:00",
+            isCompleted: false,
+            type: "lab",
+          },
+        ],
+      },
+    ],
+    currentLesson: {
+      title: "Layer Fisik dan Data Link",
+      description:
+        "Pada video ini, kita akan mempelajari tentang dua layer terbawah dalam model OSI, yaitu layer fisik dan data link. Kita akan membahas fungsi, karakteristik, dan protokol yang digunakan pada kedua layer tersebut.",
+      resources: [
+        {
+          title: "Slide Layer Fisik dan Data Link.pdf",
+          type: "pdf",
+          size: "2.8 MB",
+        },
+        {
+          title: "Diagram Model OSI.pdf",
+          type: "pdf",
+          size: "1.2 MB",
+        },
+        {
+          title: "Latihan Layer Fisik dan Data Link.pdf",
+          type: "pdf",
+          size: "1.5 MB",
+        },
+      ],
+    },
+  },
+  IF2004: {
+    title: "Sistem Operasi",
+    instructor: "Dr. Rina Fitriani, M.Kom",
+    progress: 30,
+    rating: 4.6,
+    totalStudents: 1050,
+    lastUpdated: "Maret 2024",
+    sections: [
+      {
+        id: 1,
+        title: "Pengantar Sistem Operasi",
+        isCompleted: true,
+        lessons: [
+          {
+            id: "1-1",
+            title: "Konsep Dasar Sistem Operasi",
+            duration: "13:20",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-2",
+            title: "Sejarah dan Evolusi Sistem Operasi",
+            duration: "15:45",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-3",
+            title: "Kuis: Pengantar Sistem Operasi",
+            duration: "8 pertanyaan",
+            isCompleted: true,
+            type: "quiz",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Manajemen Proses",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "2-1",
+            title: "Konsep Proses dan Thread",
+            duration: "16:30",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "2-2",
+            title: "Penjadwalan Proses",
+            duration: "18:15",
+            isCompleted: false,
+            type: "video",
+            isCurrent: true,
+          },
+          {
+            id: "2-3",
+            title: "Sinkronisasi Proses",
+            duration: "17:40",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "2-4",
+            title: "Deadlock",
+            duration: "14:55",
+            isCompleted: false,
+            type: "video",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Manajemen Memori",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "3-1",
+            title: "Konsep Manajemen Memori",
+            duration: "15:20",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-2",
+            title: "Memori Virtual",
+            duration: "19:10",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-3",
+            title: "Praktikum: Simulasi Manajemen Memori",
+            duration: "45:00",
+            isCompleted: false,
+            type: "lab",
+          },
+        ],
+      },
+    ],
+    currentLesson: {
+      title: "Penjadwalan Proses",
+      description:
+        "Pada video ini, kita akan mempelajari tentang penjadwalan proses dalam sistem operasi. Kita akan membahas algoritma penjadwalan, kriteria penjadwalan, dan implementasi penjadwalan proses dalam berbagai sistem operasi.",
+      resources: [
+        {
+          title: "Slide Penjadwalan Proses.pdf",
+          type: "pdf",
+          size: "2.6 MB",
+        },
+        {
+          title: "Contoh Algoritma Penjadwalan.pdf",
+          type: "pdf",
+          size: "1.8 MB",
+        },
+        {
+          title: "Latihan Penjadwalan Proses.pdf",
+          type: "pdf",
+          size: "1.4 MB",
+        },
+      ],
+    },
+  },
+  IF2005: {
+    title: "Interaksi Manusia dan Komputer",
+    instructor: "Dr. Hendra Wijaya, M.Sc",
+    progress: 50,
+    rating: 4.7,
+    totalStudents: 890,
+    lastUpdated: "April 2024",
+    sections: [
+      {
+        id: 1,
+        title: "Pengantar IMK",
+        isCompleted: true,
+        lessons: [
+          {
+            id: "1-1",
+            title: "Konsep Dasar IMK",
+            duration: "12:15",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-2",
+            title: "Faktor Manusia dalam IMK",
+            duration: "14:30",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-3",
+            title: "Kuis: Pengantar IMK",
+            duration: "10 pertanyaan",
+            isCompleted: true,
+            type: "quiz",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Desain Antarmuka",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "2-1",
+            title: "Prinsip Desain Antarmuka",
+            duration: "15:45",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "2-2",
+            title: "Desain Antarmuka Berbasis Pengguna",
+            duration: "17:20",
+            isCompleted: false,
+            type: "video",
+            isCurrent: true,
+          },
+          {
+            id: "2-3",
+            title: "Evaluasi Antarmuka",
+            duration: "16:10",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "2-4",
+            title: "Latihan: Analisis Antarmuka",
+            duration: "5 soal",
+            isCompleted: false,
+            type: "assignment",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Pengalaman Pengguna (UX)",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "3-1",
+            title: "Konsep Dasar UX",
+            duration: "14:25",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-2",
+            title: "Metode Penelitian UX",
+            duration: "18:30",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-3",
+            title: "Praktikum: Perancangan UX",
+            duration: "50:00",
+            isCompleted: false,
+            type: "lab",
+          },
+        ],
+      },
+    ],
+    currentLesson: {
+      title: "Desain Antarmuka Berbasis Pengguna",
+      description:
+        "Pada video ini, kita akan mempelajari tentang desain antarmuka berbasis pengguna (user-centered interface design). Kita akan membahas prinsip, metode, dan teknik dalam merancang antarmuka yang berfokus pada kebutuhan dan karakteristik pengguna.",
+      resources: [
+        {
+          title: "Slide Desain Antarmuka Berbasis Pengguna.pdf",
+          type: "pdf",
+          size: "3.2 MB",
+        },
+        {
+          title: "Contoh Desain Antarmuka.pdf",
+          type: "pdf",
+          size: "2.5 MB",
+        },
+        {
+          title: "Latihan Desain Antarmuka.pdf",
+          type: "pdf",
+          size: "1.7 MB",
+        },
+      ],
+    },
+  },
+  IF2006: {
+    title: "Kecerdasan Buatan",
+    instructor: "Prof. Maya Indah, Ph.D",
+    progress: 25,
+    rating: 4.9,
+    totalStudents: 1350,
+    lastUpdated: "Maret 2024",
+    sections: [
+      {
+        id: 1,
+        title: "Pengantar Kecerdasan Buatan",
+        isCompleted: true,
+        lessons: [
+          {
+            id: "1-1",
+            title: "Konsep Dasar Kecerdasan Buatan",
+            duration: "14:20",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-2",
+            title: "Sejarah dan Perkembangan AI",
+            duration: "16:45",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "1-3",
+            title: "Kuis: Pengantar AI",
+            duration: "10 pertanyaan",
+            isCompleted: true,
+            type: "quiz",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Metode Pencarian",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "2-1",
+            title: "Pencarian Blind Search",
+            duration: "15:30",
+            isCompleted: true,
+            type: "video",
+          },
+          {
+            id: "2-2",
+            title: "Pencarian Heuristik",
+            duration: "18:15",
+            isCompleted: false,
+            type: "video",
+            isCurrent: true,
+          },
+          {
+            id: "2-3",
+            title: "Algoritma A*",
+            duration: "19:40",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "2-4",
+            title: "Latihan: Implementasi Algoritma Pencarian",
+            duration: "5 soal",
+            isCompleted: false,
+            type: "assignment",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Machine Learning",
+        isCompleted: false,
+        lessons: [
+          {
+            id: "3-1",
+            title: "Pengantar Machine Learning",
+            duration: "17:20",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-2",
+            title: "Supervised Learning",
+            duration: "20:15",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-3",
+            title: "Unsupervised Learning",
+            duration: "18:30",
+            isCompleted: false,
+            type: "video",
+          },
+          {
+            id: "3-4",
+            title: "Praktikum: Implementasi Machine Learning",
+            duration: "60:00",
+            isCompleted: false,
+            type: "lab",
+          },
+        ],
+      },
+    ],
+    currentLesson: {
+      title: "Pencarian Heuristik",
+      description:
+        "Pada video ini, kita akan mempelajari tentang metode pencarian heuristik dalam kecerdasan buatan. Kita akan membahas konsep heuristik, jenis-jenis pencarian heuristik, dan implementasi pencarian heuristik dalam pemecahan masalah.",
+      resources: [
+        {
+          title: "Slide Pencarian Heuristik.pdf",
+          type: "pdf",
+          size: "2.9 MB",
+        },
+        {
+          title: "Contoh Implementasi Pencarian Heuristik.zip",
+          type: "zip",
+          size: "2.2 MB",
+        },
+        {
+          title: "Latihan Pencarian Heuristik.pdf",
+          type: "pdf",
+          size: "1.6 MB",
+        },
+      ],
+    },
+  },
+}
