@@ -43,7 +43,6 @@ export function CommentList({ comments, authors, onReply }: CommentListProps) {
                   key={reply.id}
                   comment={reply}
                   author={authors[reply.authorId]}
-                  isNested={true}
                   onReply={onReply}
                 />
               ))}
