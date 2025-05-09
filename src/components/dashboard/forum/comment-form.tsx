@@ -20,13 +20,7 @@ interface CommentFormProps {
   onCancelReply?: () => void;
 }
 
-export function CommentForm({
-  threadId,
-  parentId,
-  onSuccess,
-  replyingTo,
-  onCancelReply,
-}: CommentFormProps) {
+export function CommentForm({ replyingTo, onCancelReply }: CommentFormProps) {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 

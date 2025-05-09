@@ -2,15 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import {
-  FileText,
-  Info,
-  Plus,
-  Printer,
-  Save,
-  Search,
-  Trash2,
-} from "lucide-react";
+import { Info, Plus, Printer, Save, Search, Trash2 } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { toast } from "sonner";
 
@@ -194,14 +186,14 @@ export function KRSForm() {
   const [courseDetailsOpen, setCourseDetailsOpen] = useState<string | null>(
     null
   );
-  const [studentData, setStudentData] = useState({
+  const studentData = {
     name: "NESCAFE ICE BLACK",
     id: "12345678",
     faculty: "Fakultas Kedokteran",
     program: "Kedokteran",
     semester: "Genap",
     academicYear: "2023/2024",
-  });
+  };
 
   const filteredCourses = availableCourses.filter(
     (course) =>

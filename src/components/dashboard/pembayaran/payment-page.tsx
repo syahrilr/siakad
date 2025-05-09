@@ -8,7 +8,6 @@ import {
   CreditCard,
   Download,
   FileText,
-  Filter,
   History,
   LayoutDashboard,
   Plus,
