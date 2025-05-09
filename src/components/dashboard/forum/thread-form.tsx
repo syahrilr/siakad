@@ -25,8 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { WhatsAppIntegration } from "@/components/whatsapp-integration";
-import { notifyNewThread } from "@/lib/services/whatsapp-service";
 
 interface ThreadFormProps {
   categories: { value: string; label: string }[];
@@ -67,43 +65,6 @@ export function ThreadForm({ categories, onCancel }: ThreadFormProps) {
       setIsSubmitting(false);
       return;
     }
-
-    try {
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Create a mock thread object for the notification
-      const mockThread = {
-        id: `thread-${Date.now()}`,
-        title: formData.title,
-        content: formData.content,
-        authorId: "user-3", // Assuming current user
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        category: formData.category,
-        tags: formData.tags.split(",").map((tag) => tag.trim()),
-        viewCount: 0,
-        isLocked: false,
-        isPinned: false,
-      };
-
-      // Send WhatsApp notification if integration exists
-      await notifyNewThread(mockThread);
-
-      toast.success("Diskusi berhasil dibuat", {
-        description: "Diskusi Anda telah berhasil dipublikasikan.",
-        richColors: true,
-      });
-
-      router.push("/forum");
-    } catch (error) {
-      toast.error("Gagal membuat diskusi", {
-        description: "Terjadi kesalahan saat membuat diskusi.",
-        richColors: true,
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
@@ -117,7 +78,6 @@ export function ThreadForm({ categories, onCancel }: ThreadFormProps) {
               Medscholar
             </CardDescription>
           </div>
-          <WhatsAppIntegration categoryId={formData.category || undefined} />
         </div>
       </CardHeader>
       <form onSubmit={handleSubmit}>
