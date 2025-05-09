@@ -1,4 +1,3 @@
-// app/(your-path)/[id]/page.tsx atau thread/page.tsx
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -37,26 +36,30 @@ export async function generateMetadata({
   };
 }
 
+// ✅ Ubah ke async function
 export default async function ThreadPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const thread = getThreadById(params.id);
+  const thread = await getThreadById(params.id);
 
   if (!thread) {
     notFound();
   }
 
-  const author = getUserById(thread.authorId);
-  const comments = getCommentsByThreadId(thread.id);
+  const author = await getUserById(thread.authorId);
+  const comments = await getCommentsByThreadId(thread.id);
 
-  const commentAuthors = comments.reduce(
-    (acc, comment) => {
-      if (!acc[comment.authorId]) {
-        acc[comment.authorId] = getUserById(comment.authorId);
-      }
-      return acc;
+  const commentAuthors = await Promise.all(
+    comments.map(async (comment) => ({
+      [comment.authorId]: await getUserById(comment.authorId),
+    }))
+  );
+
+  const commentAuthorsMap = commentAuthors.reduce(
+    (acc, curr) => {
+      return { ...acc, ...curr };
     },
     {} as Record<string, User | undefined>
   );
@@ -66,7 +69,7 @@ export default async function ThreadPage({
       thread={thread}
       author={author}
       comments={comments}
-      commentAuthors={commentAuthors}
+      commentAuthors={commentAuthorsMap}
     />
   );
 }
