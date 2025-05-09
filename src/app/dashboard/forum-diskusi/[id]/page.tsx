@@ -37,7 +37,11 @@ export async function generateMetadata({
   };
 }
 
-export default function ThreadPage({ params }: { params: { id: string } }) {
+export default async function ThreadPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const thread = getThreadById(params.id);
 
   if (!thread) {
