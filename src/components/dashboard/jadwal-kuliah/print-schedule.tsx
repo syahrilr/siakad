@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { Download, Printer } from "lucide-react";
+import { Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { toast } from "sonner";
 

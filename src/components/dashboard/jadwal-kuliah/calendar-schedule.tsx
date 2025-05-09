@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 
-import { Calendar, Download, LayoutDashboard } from "lucide-react";
+import { Calendar, LayoutDashboard } from "lucide-react";
 
 import { CalendarView } from "@/components/dashboard/calendar-view";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { UpcomingClasses } from "../upcoming-classes";

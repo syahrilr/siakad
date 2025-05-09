@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 
-import { CalendarView } from "@/components/dashboard/calendar-view";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { CalendarSchedule } from "@/components/dashboard/jadwal-kuliah/calendar-schedule";
-import { KRSForm } from "@/components/dashboard/krs/krs-form";
-import { KRSSchedule } from "@/components/dashboard/krs/krs-schedule";
-import { KRSStatus } from "@/components/dashboard/krs/krs-status";
 
 export const metadata: Metadata = {
   title: "Jadwal Kuliah | SIAKAD",

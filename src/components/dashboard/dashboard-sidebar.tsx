@@ -9,7 +9,6 @@ import {
   Command,
   FileBarChart,
   GraduationCap,
-  Group,
   LayoutDashboard,
   ListChecks,
   MessageSquareText,

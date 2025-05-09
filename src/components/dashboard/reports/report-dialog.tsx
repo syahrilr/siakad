@@ -22,18 +22,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { ReportReasonOptions } from "./report-option";
 
 interface ReportDialogProps {
-  targetType: "thread" | "comment" | "user";
-  targetId: string;
+  targetType?: "thread" | "comment" | "user";
+  targetId?: string;
   className?: string;
   onSuccess?: () => void;
 }
 
-export function ReportDialog({
-  targetType,
-  targetId,
-  className,
-  onSuccess,
-}: ReportDialogProps) {
+export function ReportDialog({ className, onSuccess }: ReportDialogProps) {
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
   const [description, setDescription] = useState("");

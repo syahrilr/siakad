@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { getThreadById, getUserById } from "@/lib/data";
+import { getUserById } from "@/lib/data";
 
 interface CommentFormProps {
   threadId: string;
@@ -52,45 +52,6 @@ export function CommentForm({
     }
 
     setIsSubmitting(true);
-
-    try {
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Create a mock comment object for the notification
-      const mockComment = {
-        id: `comment-${Date.now()}`,
-        threadId,
-        content,
-        authorId: currentUser.id,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        parentId,
-        isAccepted: false,
-      };
-
-      setContent("");
-
-      toast.success("Balasan berhasil dikirim", {
-        description: "Balasan Anda telah berhasil dipublikasikan.",
-        richColors: true,
-      });
-
-      if (onSuccess) {
-        onSuccess();
-      }
-
-      if (replyingTo && onCancelReply) {
-        onCancelReply();
-      }
-    } catch (error) {
-      toast.error("Gagal mengirim balasan", {
-        description: "Terjadi kesalahan saat mengirim balasan.",
-        richColors: true,
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (

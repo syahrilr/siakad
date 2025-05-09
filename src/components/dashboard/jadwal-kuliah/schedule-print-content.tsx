@@ -54,16 +54,9 @@ export const JadwalPrintContent: React.FC<JadwalPrintContentProps> = ({
 
   // Sort days in the correct order
   const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-  const sortedDays = Object.keys(coursesByDay).sort(
-    (a, b) => days.indexOf(a) - days.indexOf(b)
-  );
 
   // Calculate total credits and hours
   const totalCredits = courses.reduce((acc, course) => acc + course.credits, 0);
-  const totalHours = courses.reduce(
-    (acc, course) => acc + (course.endHour - course.startHour),
-    0
-  );
 
   // Format hour (e.g., 9.5 -> "09:30")
   const formatHour = (hour: number) => {

@@ -49,14 +49,14 @@ export const TranskripFullPrintContent: React.FC<
   );
 
   // Calculate total grade points (SKS * Bobot)
-  const totalGradePoints = nilaiPerSemester.reduce((acc, semester) => {
-    return (
-      acc +
-      semester.mataKuliah.reduce((semAcc, course) => {
-        return semAcc + course.sks * course.bobot;
-      }, 0)
-    );
-  }, 0);
+  // const totalGradePoints = nilaiPerSemester.reduce((acc, semester) => {
+  //   return (
+  //     acc +
+  //     semester.mataKuliah.reduce((semAcc, course) => {
+  //       return semAcc + course.sks * course.bobot;
+  //     }, 0)
+  //   );
+  // }, 0);
 
   return (
     <div className="print-content p-8">

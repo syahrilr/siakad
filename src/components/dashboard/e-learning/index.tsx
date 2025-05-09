@@ -11,11 +11,9 @@ import {
   ClipboardList,
   Clock,
   FileText,
-  Filter,
   Laptop,
   MoreHorizontal,
   Play,
-  Search,
   Video,
 } from "lucide-react";
 
@@ -34,7 +32,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import {
   Select,

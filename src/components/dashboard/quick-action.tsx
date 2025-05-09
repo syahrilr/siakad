@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   BookOpen,
   Calendar,
-  Clock,
   DollarSign,
   FileText,
   Settings,

@@ -28,16 +28,10 @@ import { ReportDialog } from "../reports/report-dialog";
 interface CommentCardProps {
   comment: Comment;
   author: User | undefined;
-  isNested?: boolean;
   onReply?: (commentId: string) => void;
 }
 
-export function CommentCard({
-  comment,
-  author,
-  isNested = false,
-  onReply,
-}: CommentCardProps) {
+export function CommentCard({ comment, author, onReply }: CommentCardProps) {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0); // Changed from comment.likes || 0
 
