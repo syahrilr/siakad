@@ -31,7 +31,6 @@ import {
 } from "@/components/ui/sidebar";
 
 import { Separator } from "../ui/separator";
-import { WhatsappLogo } from "../whatsapp-integration/whatsapp-logo";
 import { NavMain } from "./nav-main";
 
 const data = {
@@ -47,11 +46,6 @@ const data = {
       title: "Settings",
       url: "/dashboard/settings",
       icon: Settings,
-    },
-    {
-      title: "WhatsApp",
-      url: "/dashboard/whatsapp",
-      icon: WhatsappLogo,
     },
   ],
   navContents: [
