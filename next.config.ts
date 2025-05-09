@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'videos.pexels.com',
+        pathname: '/video-file/**',
+      },
+      {
+        protocol: 'https',
         hostname: '**.github.com',
         pathname: '**',
       },

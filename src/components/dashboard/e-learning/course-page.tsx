@@ -494,12 +494,15 @@ export default function CourseLessonPage({
             <video
               ref={videoRef}
               className="h-full w-full object-contain"
-              poster="/placeholder.svg?height=720&width=1280"
+              poster="https://images.pexels.com/photos/159220/printed-circuit-board-print-plate-via-macro-159220.jpeg?auto=compress&cs=tinysrgb&w=600"
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleMetadataLoaded}
               onClick={togglePlay}
             >
-              <source src="#" type="video/mp4" />
+              <source
+                src="https://videos.pexels.com/video-files/4709394/4709394-sd_960_506_25fps.mp4"
+                type="video/mp4"
+              />
               Your browser does not support the video tag.
             </video>
 

@@ -1,9 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import React, { useMemo } from "react";
-
-import { Search } from "lucide-react";
+import React, { Suspense, useMemo } from "react";
 
 import { ModeToggle } from "@/components/globals/theme/theme-toggle";
 import {
@@ -14,13 +12,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { getThreadById } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 import { DashboardSidebar } from "./dashboard-sidebar";
@@ -43,9 +41,29 @@ export default function DashboardLayout({
   const breadcrumbs = useMemo(() => {
     const segments = pathname.split("/").filter(Boolean);
 
+    // Check if we're on a thread detail page
+    const isThreadDetailPage =
+      segments.length >= 3 &&
+      segments[0] === "dashboard" &&
+      segments[1] === "forum-diskusi" &&
+      segments[2].startsWith("thread-");
+
     // Return array of segments with href and label
     return segments.map((segment, index) => {
       const href = `/${segments.slice(0, index + 1).join("/")}`;
+
+      // Special case for thread detail page - last segment
+      if (isThreadDetailPage && index === segments.length - 1) {
+        // Get thread title from the thread ID
+        const threadId = segment;
+        const thread = getThreadById(threadId);
+
+        // Use thread title if available, otherwise fallback to formatted segment
+        if (thread) {
+          return { href, label: thread.title };
+        }
+      }
+
       // Format the segment to be more readable (capitalize, replace hyphens with spaces)
       const label = segment
         .split("-")
@@ -62,7 +80,7 @@ export default function DashboardLayout({
       <SidebarInset>
         <header
           className={cn(
-            "bg-sidebar sticky top-2 z-40 mx-4 flex h-14 shrink-0 items-center justify-between rounded-lg border px-4 shadow-sm backdrop-blur-md",
+            "bg-sidebar/80 sticky top-2 z-40 mx-4 flex h-14 shrink-0 items-center justify-between rounded-lg border px-4 shadow-sm backdrop-blur-md",
             pathname.startsWith("/dashboard/e-learning/course") && "hidden"
           )}
         >
@@ -87,7 +105,7 @@ export default function DashboardLayout({
 
                     {/* Render the last segment as the current page */}
                     <BreadcrumbItem>
-                      <BreadcrumbPage>
+                      <BreadcrumbPage className="max-w-[300px] truncate">
                         {breadcrumbs[breadcrumbs.length - 1]?.label ||
                           "Dashboard"}
                       </BreadcrumbPage>
@@ -100,19 +118,13 @@ export default function DashboardLayout({
 
           {/* Search and Mode Toggle */}
           <div className="flex items-center gap-3">
-            <div className="relative hidden w-full max-w-sm items-center md:flex">
-              <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
-              <Input
-                type="search"
-                placeholder="Search..."
-                className="bg-muted w-[200px] rounded-full pl-8 lg:w-[240px]"
-              />
-            </div>
             <ModeToggle />
             <UserButton user={user} />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+        <div className="relative z-10 flex flex-1 flex-col gap-4 p-4 pt-0">
+          <Suspense>{children}</Suspense>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

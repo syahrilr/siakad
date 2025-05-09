@@ -1,8 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-import { FileText, Info, Plus, Save, Search, Trash2 } from "lucide-react";
+import {
+  FileText,
+  Info,
+  Plus,
+  Printer,
+  Save,
+  Search,
+  Trash2,
+} from "lucide-react";
+import { useReactToPrint } from "react-to-print";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -50,6 +60,9 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
+import { PrintContent } from "./print-content";
+import { printStyles } from "./print-style";
+
 interface Course {
   id: string;
   name: string;
@@ -66,76 +79,76 @@ interface Course {
 export function KRSForm() {
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([
     {
-      id: "CS101",
-      name: "Algoritma dan Pemrograman Lanjut",
+      id: "MD101",
+      name: "Anatomi Manusia",
       sks: 3,
       semester: 6,
       day: "Senin",
       time: "08:00 - 09:40",
-      room: "Lab Komputer 3",
-      lecturer: "Dr. Budi Santoso",
+      room: "Lab Anatomi",
+      lecturer: "Dr. Indra Mahendra",
       status: "wajib",
       description:
-        "Mata kuliah ini membahas algoritma dan struktur data lanjutan serta implementasinya dalam pemrograman.",
+        "Mata kuliah ini membahas struktur tubuh manusia secara menyeluruh melalui pendekatan sistemik dan regional.",
     },
     {
-      id: "CS102",
-      name: "Basis Data Terdistribusi",
+      id: "MD102",
+      name: "Farmakologi Klinis",
       sks: 3,
       semester: 6,
       day: "Selasa",
       time: "10:00 - 11:40",
-      room: "Ruang 2.3",
-      lecturer: "Prof. Siti Rahayu",
+      room: "Ruang Kuliah 2.3",
+      lecturer: "Prof. Sari Utami",
       status: "wajib",
       description:
-        "Mata kuliah ini membahas konsep dan implementasi basis data terdistribusi.",
+        "Mata kuliah ini membahas penggunaan obat-obatan dalam praktik klinis serta interaksi dan efek sampingnya.",
     },
     {
-      id: "CS103",
-      name: "Keamanan Jaringan",
+      id: "MD103",
+      name: "Patologi Sistemik",
       sks: 3,
       semester: 6,
       day: "Rabu",
       time: "13:00 - 14:40",
-      room: "Lab Jaringan",
-      lecturer: "Dr. Ahmad Fauzi",
+      room: "Lab Patologi",
+      lecturer: "Dr. Ahmad Rizky",
       status: "wajib",
       description:
-        "Mata kuliah ini membahas konsep dan implementasi keamanan jaringan komputer.",
+        "Mata kuliah ini mempelajari gangguan patologis berdasarkan sistem organ tubuh.",
     },
   ]);
 
   const availableCourses: Course[] = [
     {
-      id: "CS104",
-      name: "Kecerdasan Buatan",
+      id: "MD104",
+      name: "Radiologi Dasar",
       sks: 3,
       semester: 6,
       day: "Kamis",
       time: "08:00 - 09:40",
-      room: "Ruang 3.2",
-      lecturer: "Dr. Rina Wijaya",
+      room: "Ruang Radiologi",
+      lecturer: "Dr. Rina Hartati",
       status: "pilihan",
       description:
-        "Mata kuliah ini membahas konsep dasar kecerdasan buatan dan aplikasinya.",
+        "Mata kuliah ini membahas prinsip dasar pencitraan medis seperti X-ray, CT Scan, dan MRI.",
     },
     {
-      id: "CS105",
-      name: "Pengembangan Aplikasi Mobile",
+      id: "MD105",
+      name: "Ilmu Gizi Klinis",
       sks: 3,
       semester: 6,
       day: "Jumat",
       time: "10:00 - 11:40",
-      room: "Lab Mobile",
-      lecturer: "Dr. Hadi Santoso",
+      room: "Ruang Kuliah Gizi",
+      lecturer: "Dr. Hadi Pranoto",
       status: "pilihan",
       description:
-        "Mata kuliah ini membahas pengembangan aplikasi mobile untuk platform Android dan iOS.",
+        "Mata kuliah ini membahas hubungan antara nutrisi dan kesehatan serta penerapan terapi gizi dalam penyakit klinis.",
     },
     {
-      id: "CS106",
-      name: "Etika Profesi IT",
+      id: "MD106",
+      name: "Etika Kedokteran",
       sks: 2,
       semester: 6,
       day: "Kamis",
@@ -144,33 +157,33 @@ export function KRSForm() {
       lecturer: "Prof. Dina Anggraini",
       status: "wajib",
       description:
-        "Mata kuliah ini membahas etika profesi dalam bidang teknologi informasi.",
+        "Mata kuliah ini membahas prinsip etika dalam praktik kedokteran dan hubungan dokter-pasien.",
     },
     {
-      id: "CS107",
-      name: "Pemrograman Web Lanjut",
+      id: "MD107",
+      name: "Ilmu Penyakit Dalam",
       sks: 3,
       semester: 6,
       day: "Senin",
       time: "13:00 - 14:40",
-      room: "Lab Web",
+      room: "Ruang Penyakit Dalam",
       lecturer: "Dr. Rudi Hartono",
       status: "pilihan",
       description:
-        "Mata kuliah ini membahas pengembangan aplikasi web dengan teknologi modern.",
+        "Mata kuliah ini membahas diagnosis dan manajemen penyakit pada organ-organ internal.",
     },
     {
-      id: "CS108",
-      name: "Sistem Terdistribusi",
+      id: "MD108",
+      name: "Mikrobiologi Kedokteran",
       sks: 3,
       semester: 6,
       day: "Selasa",
       time: "13:00 - 14:40",
-      room: "Ruang 3.1",
+      room: "Lab Mikrobiologi",
       lecturer: "Dr. Eko Prasetyo",
       status: "pilihan",
       description:
-        "Mata kuliah ini membahas konsep dan implementasi sistem terdistribusi.",
+        "Mata kuliah ini membahas mikroorganisme yang berkaitan dengan penyakit infeksi pada manusia.",
     },
   ];
 
@@ -181,6 +194,14 @@ export function KRSForm() {
   const [courseDetailsOpen, setCourseDetailsOpen] = useState<string | null>(
     null
   );
+  const [studentData, setStudentData] = useState({
+    name: "NESCAFE ICE BLACK",
+    id: "12345678",
+    faculty: "Fakultas Kedokteran",
+    program: "Kedokteran",
+    semester: "Genap",
+    academicYear: "2023/2024",
+  });
 
   const filteredCourses = availableCourses.filter(
     (course) =>
@@ -239,15 +260,40 @@ export function KRSForm() {
     return null;
   };
 
+  // Create separate ref for print content
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Setup print handler with the dedicated print content and custom filename
+  const handlePrint = useReactToPrint({
+    contentRef,
+    // Set document title to include student name - this becomes the default filename when saving as PDF
+    documentTitle: `Kartu Rencana Studi - ${studentData.name}`,
+    pageStyle: printStyles,
+    onBeforePrint: async () => {
+      console.log("Preparing to print...");
+      return Promise.resolve();
+    },
+    onAfterPrint: () => {
+      toast.success("Print completed", {
+        richColors: true,
+      });
+    },
+  });
+
   return (
     <>
+      <style>{printStyles}</style>
+
+      {/* Main UI - Not printed */}
       <Card className="overflow-hidden border shadow-md transition-all duration-300 hover:shadow-lg dark:border-slate-800">
         <CardHeader className="bg-card pb-3">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <CardTitle className="text-xl font-bold">
-                Mata Kuliah Terpilih
-              </CardTitle>
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-xl font-bold">
+                  Mata Kuliah Terpilih
+                </CardTitle>
+              </div>
               <CardDescription>
                 <div className="mt-2 space-y-2">
                   <div className="flex items-center justify-between">
@@ -634,7 +680,7 @@ export function KRSForm() {
                   <TableHead className="hidden md:table-cell">Jadwal</TableHead>
                   <TableHead className="hidden md:table-cell">Ruang</TableHead>
                   <TableHead className="hidden lg:table-cell">Dosen</TableHead>
-                  <TableHead className="text-right">Aksi</TableHead>
+                  <TableHead className="no-print text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -677,7 +723,7 @@ export function KRSForm() {
                     <TableCell className="hidden lg:table-cell">
                       {course.lecturer}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="no-print text-right">
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -741,8 +787,9 @@ export function KRSForm() {
             <Button
               variant="outline"
               className="flex-1 cursor-pointer gap-2 sm:flex-auto"
+              onClick={handlePrint}
             >
-              <FileText className="h-4 w-4" />
+              <Printer className="h-4 w-4" />
               <span className="hidden sm:inline">Cetak KRS</span>
               <span className="sm:hidden">Cetak</span>
             </Button>
@@ -754,6 +801,17 @@ export function KRSForm() {
           </div>
         </CardFooter>
       </Card>
+
+      {/* Hidden Print Content - Only visible when printing */}
+      <div className="hidden">
+        <div ref={contentRef}>
+          <PrintContent
+            studentData={studentData}
+            selectedCourses={selectedCourses}
+            totalSKS={totalSKS}
+          />
+        </div>
+      </div>
     </>
   );
 }

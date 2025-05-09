@@ -22,7 +22,7 @@ export default function DashboardPage() {
       <DashboardHeader
         heading="Dashboard Mahasiswa"
         text="Selamat datang kembali, Ahmad Fauzi"
-        semester="Semester 5 - 2023/2024"
+        semester="Semester 8 - 2024/2025"
       />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

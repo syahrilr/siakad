@@ -3,7 +3,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 
-import { DateSelectArg, EventClickArg } from "@fullcalendar/core/index.js";
+import type { DateSelectArg, EventClickArg } from "@fullcalendar/core/index.js";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
@@ -16,9 +16,14 @@ import {
   Calendar,
   CheckCircle,
   Clock,
-  GraduationCap,
+  Info,
+  Layers,
   MapPin,
+  Microscope,
+  MoreHorizontal,
+  Plus,
   Search,
+  Sparkles,
   Users,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -42,9 +47,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -104,121 +116,122 @@ export function CalendarView() {
 
   const [courses, setCourses] = useState<Course[]>([
     {
-      id: "CS101",
-      title: "Algoritma dan Pemrograman",
+      id: "MED101",
+      title: "Anatomi Manusia",
       start: now.getFullYear() + "-" + getMonth(now) + "-01T08:00:00",
       end: now.getFullYear() + "-" + getMonth(now) + "-01T09:40:00",
       className: "primary",
-      description:
-        "Pengenalan algoritma dasar dan implementasi dalam bahasa pemrograman",
-      location: "Lab Komputer 3",
-      lecturer: "Dr. Budi Santoso",
+      description: "Pengenalan struktur tubuh manusia dan sistem organ",
+      location: "Lab Anatomi 1",
+      lecturer: "Dr. Surya Wijaya, Sp.B",
       lecturerAvatar: "/placeholder.svg?height=40&width=40",
-      lecturerInitials: "BS",
-      courseCode: "CS101",
+      lecturerInitials: "SW",
+      courseCode: "MED101",
       credits: 3,
       type: "lecture",
       status: "registered",
     },
     {
-      id: "CS102",
-      title: "Basis Data Lanjut",
+      id: "MED102",
+      title: "Fisiologi Sistem Tubuh",
       start: now.getFullYear() + "-" + getMonth(now) + "-03T10:00:00",
       end: now.getFullYear() + "-" + getMonth(now) + "-03T11:40:00",
       className: "info",
-      description: "Konsep dan implementasi basis data terdistribusi",
+      description:
+        "Fungsi normal tubuh manusia pada tingkat sel, jaringan, dan organ",
       location: "Ruang 2.3",
-      lecturer: "Prof. Siti Rahayu",
+      lecturer: "Prof. Ratna Dewi, Ph.D",
       lecturerAvatar: "/placeholder.svg?height=40&width=40",
-      lecturerInitials: "SR",
-      courseCode: "CS102",
+      lecturerInitials: "RD",
+      courseCode: "MED102",
       credits: 3,
       type: "lecture",
       status: "registered",
     },
     {
-      id: "CS103",
-      title: "Keamanan Jaringan",
+      id: "MED103",
+      title: "Patologi Umum",
       start: now.getFullYear() + "-" + getMonth(now) + "-05T13:00:00",
       end: now.getFullYear() + "-" + getMonth(now) + "-05T14:40:00",
       className: "success",
-      description: "Konsep dan implementasi keamanan jaringan komputer",
-      location: "Lab Jaringan",
-      lecturer: "Dr. Ahmad Fauzi",
+      description: "Proses penyakit pada tingkat sel, jaringan, dan organ",
+      location: "Lab Patologi",
+      lecturer: "Dr. Hendra Santoso, Sp.PA",
       lecturerAvatar: "/placeholder.svg?height=40&width=40",
-      lecturerInitials: "AF",
-      courseCode: "CS103",
+      lecturerInitials: "HS",
+      courseCode: "MED103",
       credits: 3,
       type: "lecture",
       status: "registered",
     },
     {
-      id: "CS104",
-      title: "Kecerdasan Buatan",
+      id: "MED104",
+      title: "Farmakologi Dasar",
       start: now.getFullYear() + "-" + getMonth(now) + "-02T08:00:00",
       end: now.getFullYear() + "-" + getMonth(now) + "-02T09:40:00",
       className: "danger",
-      description: "Konsep dasar kecerdasan buatan dan aplikasinya",
+      description: "Prinsip dasar farmakologi dan mekanisme kerja obat",
       location: "Ruang 3.2",
-      lecturer: "Dr. Rina Wijaya",
+      lecturer: "Dr. Siti Rahmah, Sp.FK",
       lecturerAvatar: "/placeholder.svg?height=40&width=40",
-      lecturerInitials: "RW",
-      courseCode: "CS104",
+      lecturerInitials: "SR",
+      courseCode: "MED104",
       credits: 3,
       type: "lecture",
       status: "available",
     },
     {
-      id: "CS105",
-      title: "Praktikum Basis Data",
+      id: "MED105",
+      title: "Praktikum Anatomi",
       start: now.getFullYear() + "-" + getMonth(now) + "-04T15:00:00",
       end: now.getFullYear() + "-" + getMonth(now) + "-04T16:40:00",
       className: "info",
-      description: "Praktikum implementasi basis data relasional",
-      location: "Lab Database",
-      lecturer: "Ir. Hadi Santoso",
+      description: "Praktikum identifikasi struktur anatomi pada kadaver",
+      location: "Lab Anatomi 2",
+      lecturer: "Dr. Surya Wijaya, Sp.B",
       lecturerAvatar: "/placeholder.svg?height=40&width=40",
-      lecturerInitials: "HS",
-      courseCode: "CS105",
+      lecturerInitials: "SW",
+      courseCode: "MED105",
       credits: 1,
       type: "lab",
       status: "registered",
     },
     {
-      id: "CS106",
-      title: "UTS Algoritma dan Pemrograman",
+      id: "MED106",
+      title: "UTS Anatomi Manusia",
       start: now.getFullYear() + "-" + getMonth(now) + "-15T09:00:00",
       end: now.getFullYear() + "-" + getMonth(now) + "-15T11:00:00",
       className: "warning",
-      description: "Ujian Tengah Semester Algoritma dan Pemrograman",
-      location: "Gedung Teknik Lt. 3",
-      courseCode: "CS101",
+      description: "Ujian Tengah Semester Anatomi Manusia",
+      location: "Gedung Kedokteran Lt. 3",
+      courseCode: "MED101",
       type: "exam",
       status: "registered",
     },
     {
-      id: "CS107",
-      title: "Deadline Tugas Basis Data",
+      id: "MED107",
+      title: "Deadline Laporan Praktikum Anatomi",
       start: now.getFullYear() + "-" + getMonth(now) + "-10T23:59:00",
       end: now.getFullYear() + "-" + getMonth(now) + "-10T23:59:00",
       className: "danger",
-      description: "Pengumpulan tugas normalisasi database",
-      courseCode: "CS102",
+      description:
+        "Pengumpulan laporan praktikum anatomi sistem muskuloskeletal",
+      courseCode: "MED105",
       type: "deadline",
       status: "registered",
     },
     {
-      id: "CS108",
-      title: "Pemrograman Web",
+      id: "MED108",
+      title: "Mikrobiologi Kedokteran",
       start: now.getFullYear() + "-" + getMonth(now, 1) + "-05T13:00:00",
       end: now.getFullYear() + "-" + getMonth(now, 1) + "-05T14:40:00",
       className: "primary",
-      description: "Pengembangan aplikasi web dengan teknologi modern",
-      location: "Lab Web",
-      lecturer: "Dr. Rudi Hartono",
+      description: "Karakteristik mikroorganisme patogen dan mekanisme infeksi",
+      location: "Lab Mikrobiologi",
+      lecturer: "Prof. Ahmad Hidayat, Ph.D",
       lecturerAvatar: "/placeholder.svg?height=40&width=40",
-      lecturerInitials: "RH",
-      courseCode: "CS108",
+      lecturerInitials: "AH",
+      courseCode: "MED108",
       credits: 3,
       type: "lecture",
       status: "available",
@@ -235,6 +248,7 @@ export function CalendarView() {
   const [availableCourses, setAvailableCourses] = useState<Course[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState("all");
+  const [activeTab, setActiveTab] = useState("calendar");
 
   const defaultParams = {
     id: "",
@@ -265,66 +279,67 @@ export function CalendarView() {
     // In a real app, this would be fetched from an API
     const sampleAvailableCourses: Course[] = [
       {
-        id: "CS201",
-        title: "Pengembangan Aplikasi Mobile",
+        id: "MED201",
+        title: "Etika Kedokteran",
         start: now.getFullYear() + "-" + getMonth(now) + "-08T10:00:00",
         end: now.getFullYear() + "-" + getMonth(now) + "-08T11:40:00",
         className: "info",
         description:
-          "Pengembangan aplikasi mobile untuk platform Android dan iOS",
-        location: "Lab Mobile",
-        lecturer: "Dr. Hadi Santoso",
+          "Prinsip etika dalam praktik kedokteran dan penelitian medis",
+        location: "Ruang Diskusi 2",
+        lecturer: "Dr. Maya Indah, M.Kes",
         lecturerAvatar: "/placeholder.svg?height=40&width=40",
-        lecturerInitials: "HS",
-        courseCode: "CS201",
-        credits: 3,
-        type: "lecture",
-        status: "available",
-      },
-      {
-        id: "CS202",
-        title: "Etika Profesi IT",
-        start: now.getFullYear() + "-" + getMonth(now) + "-09T13:00:00",
-        end: now.getFullYear() + "-" + getMonth(now) + "-09T14:40:00",
-        className: "success",
-        description: "Etika profesi dalam bidang teknologi informasi",
-        location: "Ruang 4.1",
-        lecturer: "Prof. Dina Anggraini",
-        lecturerAvatar: "/placeholder.svg?height=40&width=40",
-        lecturerInitials: "DA",
-        courseCode: "CS202",
+        lecturerInitials: "MI",
+        courseCode: "MED201",
         credits: 2,
         type: "lecture",
         status: "available",
       },
       {
-        id: "CS203",
-        title: "Sistem Terdistribusi",
+        id: "MED202",
+        title: "Imunologi Dasar",
+        start: now.getFullYear() + "-" + getMonth(now) + "-09T13:00:00",
+        end: now.getFullYear() + "-" + getMonth(now) + "-09T14:40:00",
+        className: "success",
+        description: "Sistem imun dan mekanisme pertahanan tubuh",
+        location: "Ruang 4.1",
+        lecturer: "Prof. Dina Anggraini, Ph.D",
+        lecturerAvatar: "/placeholder.svg?height=40&width=40",
+        lecturerInitials: "DA",
+        courseCode: "MED202",
+        credits: 2,
+        type: "lecture",
+        status: "available",
+      },
+      {
+        id: "MED203",
+        title: "Biokimia Medis",
         start: now.getFullYear() + "-" + getMonth(now) + "-10T13:00:00",
         end: now.getFullYear() + "-" + getMonth(now) + "-10T14:40:00",
         className: "primary",
-        description: "Konsep dan implementasi sistem terdistribusi",
-        location: "Ruang 3.1",
-        lecturer: "Dr. Eko Prasetyo",
+        description:
+          "Proses biokimia dalam tubuh manusia dan implikasinya dalam kesehatan dan penyakit",
+        location: "Lab Biokimia",
+        lecturer: "Dr. Eko Prasetyo, M.Biomed",
         lecturerAvatar: "/placeholder.svg?height=40&width=40",
         lecturerInitials: "EP",
-        courseCode: "CS203",
+        courseCode: "MED203",
         credits: 3,
         type: "lecture",
         status: "available",
       },
       {
-        id: "CS204",
-        title: "Praktikum Pemrograman Web",
+        id: "MED204",
+        title: "Praktikum Mikrobiologi",
         start: now.getFullYear() + "-" + getMonth(now) + "-11T15:00:00",
         end: now.getFullYear() + "-" + getMonth(now) + "-11T16:40:00",
         className: "primary",
-        description: "Praktikum pengembangan aplikasi web",
-        location: "Lab Web",
-        lecturer: "Dr. Rudi Hartono",
+        description: "Praktikum identifikasi mikroorganisme patogen",
+        location: "Lab Mikrobiologi",
+        lecturer: "Prof. Ahmad Hidayat, Ph.D",
         lecturerAvatar: "/placeholder.svg?height=40&width=40",
-        lecturerInitials: "RH",
-        courseCode: "CS204",
+        lecturerInitials: "AH",
+        courseCode: "MED204",
         credits: 1,
         type: "lab",
         status: "available",
@@ -406,29 +421,33 @@ export function CalendarView() {
 
   const saveCourse = () => {
     if (!params.title) {
-      toast.error("Error", {
-        description: "Course title is required",
+      toast.error("Terjadi Kesalahan", {
+        description: "Nama mata kuliah harus diisi",
+        richColors: true,
       });
       return true;
     }
 
     if (!params.start) {
-      toast.error("Error", {
-        description: "Start time is required",
+      toast.error("Terjadi Kesalahan", {
+        description: "Waktu mulai harus diisi",
+        richColors: true,
       });
       return true;
     }
 
     if (!params.end) {
-      toast.error("Error", {
-        description: "End time is required",
+      toast.error("Terjadi Kesalahan", {
+        description: "Waktu selesai harus diisi",
+        richColors: true,
       });
       return true;
     }
 
     if (!params.courseCode) {
-      toast.error("Error", {
-        description: "Course code is required",
+      toast.error("Terjadi Kesalahan", {
+        description: "Kode mata kuliah harus diisi",
+        richColors: true,
       });
       return true;
     }
@@ -474,11 +493,15 @@ export function CalendarView() {
 
       setCourses([...courses, newCourse]);
     }
-    toast.error("Error", {
-      description: params.id
-        ? "Course has been updated successfully."
-        : "Course has been added successfully.",
-    });
+    toast.success(
+      params.id ? "Mata Kuliah Diperbarui" : "Mata Kuliah Ditambahkan",
+      {
+        description: params.id
+          ? `${params.title} telah berhasil diperbarui.`
+          : `${params.title} telah berhasil ditambahkan ke jadwal Anda.`,
+        richColors: true,
+      }
+    );
 
     setIsAddCourseModalOpen(false);
   };
@@ -505,8 +528,10 @@ export function CalendarView() {
     });
 
     if (hasConflict) {
-      toast.error("Error", {
-        description: "This course conflicts with your existing schedule.",
+      toast.error("Konflik Jadwal", {
+        description:
+          "Mata kuliah ini bertabrakan dengan jadwal yang sudah ada.",
+        richColors: true,
       });
       return;
     }
@@ -520,8 +545,9 @@ export function CalendarView() {
 
     // Remove from available courses
     setAvailableCourses(availableCourses.filter((c) => c.id !== course.id));
-    toast.success("Course Registered", {
-      description: `You have successfully registered for ${course.title}.`,
+    toast.success("Mata Kuliah Terdaftar", {
+      description: `Anda telah berhasil mendaftar untuk ${course.title}.`,
+      richColors: true,
     });
 
     setIsCourseDetailModalOpen(false);
@@ -548,8 +574,9 @@ export function CalendarView() {
         { ...updatedCourse, status: "available" as Course["status"] },
       ]);
     }
-    toast.success("Course Dropped", {
-      description: `You have dropped ${course.title}.`,
+    toast.success("Mata Kuliah Dibatalkan", {
+      description: `Anda telah membatalkan ${course.title}.`,
+      richColors: true,
     });
 
     setIsCourseDetailModalOpen(false);
@@ -592,7 +619,7 @@ export function CalendarView() {
       case "lecture":
         return <BookOpen className="h-4 w-4" />;
       case "lab":
-        return <GraduationCap className="h-4 w-4" />;
+        return <Microscope className="h-4 w-4" />;
       case "tutorial":
         return <Users className="h-4 w-4" />;
       case "exam":
@@ -629,6 +656,7 @@ export function CalendarView() {
             variant="outline"
             className="border-green-200 bg-green-100 text-green-700 dark:border-green-800 dark:bg-green-950/50 dark:text-green-400"
           >
+            <CheckCircle className="mr-1 h-3 w-3" />
             Terdaftar
           </Badge>
         );
@@ -638,6 +666,7 @@ export function CalendarView() {
             variant="outline"
             className="border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-400"
           >
+            <Clock className="mr-1 h-3 w-3" />
             Menunggu
           </Badge>
         );
@@ -647,6 +676,7 @@ export function CalendarView() {
             variant="outline"
             className="border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-400"
           >
+            <Plus className="mr-1 h-3 w-3" />
             Tersedia
           </Badge>
         );
@@ -656,6 +686,7 @@ export function CalendarView() {
             variant="outline"
             className="border-red-200 bg-red-100 text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-400"
           >
+            <Users className="mr-1 h-3 w-3" />
             Penuh
           </Badge>
         );
@@ -665,6 +696,7 @@ export function CalendarView() {
             variant="outline"
             className="border-red-200 bg-red-100 text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-400"
           >
+            <AlertCircle className="mr-1 h-3 w-3" />
             Konflik
           </Badge>
         );
@@ -696,34 +728,42 @@ export function CalendarView() {
             <CardDescription>Semester Genap 2023/2024</CardDescription>
           </div>
           <div className="flex items-center gap-2">
-            <Tabs defaultValue="calendar" className="w-full sm:w-auto">
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full sm:w-auto"
+            >
               <TabsList className="grid w-full grid-cols-2 sm:w-auto">
-                <TabsTrigger value="calendar">Kalender</TabsTrigger>
-                <TabsTrigger value="courses">Mata Kuliah</TabsTrigger>
-              </TabsList>
-              <TabsContent value="calendar" className="mt-0 border-none p-0">
-                <Button onClick={addNewCourse} className="gap-2">
+                <TabsTrigger
+                  value="calendar"
+                  className="flex items-center gap-1.5"
+                >
                   <Calendar className="h-4 w-4" />
-                  <span className="hidden sm:inline">Tambah Jadwal</span>
-                  <span className="sm:hidden">Tambah</span>
-                </Button>
-              </TabsContent>
-              <TabsContent value="courses" className="mt-0 border-none p-0">
-                <Button
-                  onClick={() => setIsAddCourseModalOpen(true)}
-                  className="gap-2"
+                  <span>Kalender</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="courses"
+                  className="flex items-center gap-1.5"
                 >
                   <BookOpen className="h-4 w-4" />
-                  <span className="hidden sm:inline">Tambah Mata Kuliah</span>
-                  <span className="sm:hidden">Tambah</span>
-                </Button>
-              </TabsContent>
+                  <span>Mata Kuliah</span>
+                </TabsTrigger>
+              </TabsList>
             </Tabs>
+            <Button
+              onClick={addNewCourse}
+              variant="default"
+              size="sm"
+              className="gap-1.5"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="hidden sm:inline">Tambah</span>
+            </Button>
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-0">
-        <Tabs defaultValue="calendar">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="calendar" className="mt-0 border-none p-0">
             {isLoading ? (
               <div className="flex h-[400px] items-center justify-center">
@@ -731,6 +771,82 @@ export function CalendarView() {
               </div>
             ) : (
               <div className="calendar-wrapper p-4">
+                <style jsx global>{`
+                  .fc .fc-toolbar.fc-header-toolbar {
+                    margin-bottom: 1rem;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                  }
+
+                  .fc .fc-button {
+                    background-color: var(--btn-background);
+                    border-color: var(--border);
+                    color: var(--foreground);
+                    font-weight: 500;
+                    text-transform: capitalize;
+                    padding: 0.4rem 0.75rem;
+                    border-radius: 0.375rem;
+                    font-size: 0.875rem;
+                    line-height: 1.25rem;
+                    box-shadow: var(--shadow-sm);
+                    transition: all 0.2s ease;
+                  }
+
+                  .fc .fc-button:hover {
+                    background-color: var(--accent);
+                    border-color: var(--accent);
+                  }
+
+                  .fc .fc-button-primary:not(:disabled).fc-button-active,
+                  .fc .fc-button-primary:not(:disabled):active {
+                    background-color: var(--primary);
+                    border-color: var(--primary);
+                    color: var(--primary-foreground);
+                  }
+
+                  .fc .fc-daygrid-day.fc-day-today {
+                    background-color: var(--accent-light);
+                  }
+
+                  .fc .fc-daygrid-day-number,
+                  .fc .fc-col-header-cell-cushion {
+                    color: var(--foreground);
+                    text-decoration: none;
+                    padding: 0.5rem;
+                  }
+
+                  .fc-theme-standard td,
+                  .fc-theme-standard th,
+                  .fc-theme-standard .fc-scrollgrid {
+                    border-color: var(--border);
+                  }
+
+                  .fc-event {
+                    cursor: pointer;
+                    border-radius: 0.25rem;
+                    border: none;
+                    transition: transform 0.2s ease;
+                  }
+
+                  .fc-event:hover {
+                    transform: translateY(-1px);
+                    box-shadow: var(--shadow-md);
+                  }
+
+                  @media (max-width: 640px) {
+                    .fc .fc-toolbar {
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      gap: 0.75rem;
+                    }
+
+                    .fc .fc-toolbar-chunk {
+                      display: flex;
+                      justify-content: center;
+                    }
+                  }
+                `}</style>
                 <FullCalendar
                   plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                   initialView="dayGridMonth"
@@ -800,83 +916,149 @@ export function CalendarView() {
           <TabsContent value="courses" className="mt-0 border-none">
             <div className="p-4">
               <div className="mb-6 space-y-4">
-                <h3 className="text-lg font-semibold">Mata Kuliah Terdaftar</h3>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="flex items-center gap-2 text-lg font-semibold">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    Mata Kuliah Terdaftar
+                    <Badge variant="outline" className="ml-2">
+                      {courses.length}
+                    </Badge>
+                  </h3>
+                  <Badge variant="secondary" className="px-2 py-1">
+                    Total SKS:{" "}
+                    {courses.reduce(
+                      (total, course) => total + (course.credits || 0),
+                      0
+                    )}
+                    /24
+                  </Badge>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {courses.map((course) => (
-                    <div
+                    <Card
                       key={course.id}
                       className={cn(
-                        "group relative overflow-hidden rounded-lg border p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md",
+                        "group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-md",
                         course.type === "exam" &&
-                          "bg-amber-50 dark:bg-amber-950/30",
+                          "border-amber-200 dark:border-amber-800",
                         course.type === "deadline" &&
-                          "bg-red-50 dark:bg-red-950/30"
+                          "border-red-200 dark:border-red-800"
                       )}
                     >
-                      <div className="mb-2 flex items-center justify-between">
-                        <Badge
-                          variant="outline"
-                          className={cn(
-                            "flex items-center gap-1 font-medium",
-                            course.type === "lecture" &&
-                              "border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-400",
-                            course.type === "lab" &&
-                              "border-violet-200 bg-violet-100 text-violet-700 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-400",
-                            course.type === "tutorial" &&
-                              "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400",
-                            course.type === "exam" &&
-                              "border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-400",
-                            course.type === "deadline" &&
-                              "border-red-200 bg-red-100 text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-400"
-                          )}
-                        >
-                          {getEventTypeIcon(course.type || "lecture")}
-                          {getEventTypeLabel(course.type || "lecture")}
-                        </Badge>
-                        {getStatusBadge(course.status || "registered")}
-                      </div>
-                      <h4 className="mb-1 line-clamp-2 font-medium">
-                        {course.title}
-                      </h4>
-                      <div className="text-muted-foreground mb-3 text-sm">
-                        {course.courseCode}{" "}
-                        {course.credits && `(${course.credits} SKS)`}
-                      </div>
-                      <div className="space-y-1 text-sm">
-                        {course.lecturer && (
-                          <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4" />
-                            <span>{course.lecturer}</span>
-                          </div>
+                      <CardHeader
+                        className={cn(
+                          "p-3",
+                          course.type === "exam" &&
+                            "bg-amber-50 dark:bg-amber-950/30",
+                          course.type === "deadline" &&
+                            "bg-red-50 dark:bg-red-950/30"
                         )}
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4" />
-                          <span>
-                            {format(new Date(course.start), "EEEE", {
-                              locale: id,
-                            })}
-                            , {format(new Date(course.start), "HH:mm")} -{" "}
-                            {format(new Date(course.end), "HH:mm")}
-                          </span>
+                      >
+                        <div className="flex items-center justify-between">
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "flex items-center gap-1 font-medium",
+                              course.type === "lecture" &&
+                                "border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-400",
+                              course.type === "lab" &&
+                                "border-violet-200 bg-violet-100 text-violet-700 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-400",
+                              course.type === "tutorial" &&
+                                "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400",
+                              course.type === "exam" &&
+                                "border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-400",
+                              course.type === "deadline" &&
+                                "border-red-200 bg-red-100 text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-400"
+                            )}
+                          >
+                            {getEventTypeIcon(course.type || "lecture")}
+                            {getEventTypeLabel(course.type || "lecture")}
+                          </Badge>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                              >
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Menu</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                onClick={() => openCourseDetail(course.id)}
+                              >
+                                Lihat Detail
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => dropCourse(course.id)}
+                              >
+                                Batalkan Mata Kuliah
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </div>
-                        {course.location && (
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <h4 className="mb-1 line-clamp-2 text-lg font-medium">
+                          {course.title}
+                        </h4>
+                        <div className="text-muted-foreground mb-3 flex items-center gap-2 text-sm">
+                          <span className="font-medium">
+                            {course.courseCode}
+                          </span>
+                          {course.credits && (
+                            <span>({course.credits} SKS)</span>
+                          )}
+                        </div>
+                        <div className="space-y-2 text-sm">
+                          {course.lecturer && (
+                            <div className="flex items-center gap-2">
+                              <Avatar className="h-6 w-6">
+                                <AvatarImage
+                                  src={
+                                    course.lecturerAvatar || "/placeholder.svg"
+                                  }
+                                  alt={course.lecturer}
+                                />
+                                <AvatarFallback>
+                                  {course.lecturerInitials}
+                                </AvatarFallback>
+                              </Avatar>
+                              <span>{course.lecturer}</span>
+                            </div>
+                          )}
                           <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4" />
-                            <span>{course.location}</span>
+                            <Clock className="text-muted-foreground h-4 w-4" />
+                            <span>
+                              {format(new Date(course.start), "EEEE", {
+                                locale: id,
+                              })}
+                              , {format(new Date(course.start), "HH:mm")} -{" "}
+                              {format(new Date(course.end), "HH:mm")}
+                            </span>
                           </div>
-                        )}
-                      </div>
-                      <div className="mt-4 flex justify-end">
+                          {course.location && (
+                            <div className="flex items-center gap-2">
+                              <MapPin className="text-muted-foreground h-4 w-4" />
+                              <span>{course.location}</span>
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                      <CardFooter className="bg-muted/30 flex justify-end gap-2 border-t p-3">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="gap-1"
+                          className="gap-1.5"
                           onClick={() => openCourseDetail(course.id)}
                         >
+                          <Info className="h-4 w-4" />
                           <span>Detail</span>
                         </Button>
-                      </div>
-                    </div>
+                      </CardFooter>
+                    </Card>
                   ))}
                   {courses.length === 0 && (
                     <div className="col-span-full flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
@@ -900,15 +1082,19 @@ export function CalendarView() {
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">
+                  <h3 className="flex items-center gap-2 text-lg font-semibold">
+                    <Sparkles className="h-5 w-5 text-blue-500" />
                     Mata Kuliah Tersedia
+                    <Badge variant="outline" className="ml-2">
+                      {filteredAvailableCourses.length}
+                    </Badge>
                   </h3>
                   <div className="flex items-center gap-2">
                     <Select
                       value={selectedType}
                       onValueChange={setSelectedType}
                     >
-                      <SelectTrigger className="h-8 w-[130px]">
+                      <SelectTrigger className="h-9 w-[130px]">
                         <SelectValue placeholder="Semua Tipe" />
                       </SelectTrigger>
                       <SelectContent>
@@ -919,120 +1105,142 @@ export function CalendarView() {
                       </SelectContent>
                     </Select>
                     <div className="relative">
+                      <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
                       <Input
                         type="search"
                         placeholder="Cari mata kuliah..."
-                        className="h-8 w-[200px] pl-8"
+                        className="h-9 w-[200px] pl-8"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
-                      <Search className="text-muted-foreground absolute top-2 left-2.5 h-4 w-4" />
                     </div>
                   </div>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {filteredAvailableCourses.map((course) => (
-                    <div
-                      key={course.id}
-                      className="group relative overflow-hidden rounded-lg border p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-                    >
-                      <div className="mb-2 flex items-center justify-between">
-                        <Badge
-                          variant="outline"
-                          className={cn(
-                            "flex items-center gap-1 font-medium",
-                            course.type === "lecture" &&
-                              "border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-400",
-                            course.type === "lab" &&
-                              "border-violet-200 bg-violet-100 text-violet-700 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-400",
-                            course.type === "tutorial" &&
-                              "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400"
-                          )}
-                        >
-                          {getEventTypeIcon(course.type || "lecture")}
-                          {getEventTypeLabel(course.type || "lecture")}
-                        </Badge>
-                        {getStatusBadge(course.status || "available")}
-                      </div>
-                      <h4 className="mb-1 line-clamp-2 font-medium">
-                        {course.title}
-                      </h4>
-                      <div className="text-muted-foreground mb-3 text-sm">
-                        {course.courseCode}{" "}
-                        {course.credits && `(${course.credits} SKS)`}
-                      </div>
-                      <div className="space-y-1 text-sm">
-                        {course.lecturer && (
-                          <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4" />
-                            <span>{course.lecturer}</span>
+                <ScrollArea className="h-[400px] rounded-md border p-4">
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {filteredAvailableCourses.map((course) => (
+                      <Card
+                        key={course.id}
+                        className="group overflow-hidden transition-all duration-300 hover:shadow-md"
+                      >
+                        <CardHeader className="bg-blue-50/50 p-3 dark:bg-blue-950/20">
+                          <div className="flex items-center justify-between">
+                            <Badge
+                              variant="outline"
+                              className={cn(
+                                "flex items-center gap-1 font-medium",
+                                course.type === "lecture" &&
+                                  "border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-400",
+                                course.type === "lab" &&
+                                  "border-violet-200 bg-violet-100 text-violet-700 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-400",
+                                course.type === "tutorial" &&
+                                  "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400"
+                              )}
+                            >
+                              {getEventTypeIcon(course.type || "lecture")}
+                              {getEventTypeLabel(course.type || "lecture")}
+                            </Badge>
+                            {getStatusBadge(course.status || "available")}
                           </div>
-                        )}
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4" />
-                          <span>
-                            {format(new Date(course.start), "EEEE", {
-                              locale: id,
-                            })}
-                            , {format(new Date(course.start), "HH:mm")} -{" "}
-                            {format(new Date(course.end), "HH:mm")}
-                          </span>
+                        </CardHeader>
+                        <CardContent className="p-4">
+                          <h4 className="mb-1 line-clamp-2 text-lg font-medium">
+                            {course.title}
+                          </h4>
+                          <div className="text-muted-foreground mb-3 flex items-center gap-2 text-sm">
+                            <span className="font-medium">
+                              {course.courseCode}
+                            </span>
+                            {course.credits && (
+                              <span>({course.credits} SKS)</span>
+                            )}
+                          </div>
+                          <div className="space-y-2 text-sm">
+                            {course.lecturer && (
+                              <div className="flex items-center gap-2">
+                                <Avatar className="h-6 w-6">
+                                  <AvatarImage
+                                    src={
+                                      course.lecturerAvatar ||
+                                      "/placeholder.svg"
+                                    }
+                                    alt={course.lecturer}
+                                  />
+                                  <AvatarFallback>
+                                    {course.lecturerInitials}
+                                  </AvatarFallback>
+                                </Avatar>
+                                <span>{course.lecturer}</span>
+                              </div>
+                            )}
+                            <div className="flex items-center gap-2">
+                              <Clock className="text-muted-foreground h-4 w-4" />
+                              <span>
+                                {format(new Date(course.start), "EEEE", {
+                                  locale: id,
+                                })}
+                                , {format(new Date(course.start), "HH:mm")} -{" "}
+                                {format(new Date(course.end), "HH:mm")}
+                              </span>
+                            </div>
+                            {course.location && (
+                              <div className="flex items-center gap-2">
+                                <MapPin className="text-muted-foreground h-4 w-4" />
+                                <span>{course.location}</span>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                        <CardFooter className="bg-muted/30 flex justify-end gap-2 border-t p-3">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-1.5"
+                            onClick={() => openCourseDetail(course.id)}
+                          >
+                            <Info className="h-4 w-4" />
+                            <span>Detail</span>
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="gap-1.5"
+                            onClick={() => registerCourse(course)}
+                          >
+                            <CheckCircle className="h-4 w-4" />
+                            <span>Ambil</span>
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    ))}
+                    {filteredAvailableCourses.length === 0 && (
+                      <div className="col-span-full flex h-full flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
+                        <div className="bg-muted mb-3 rounded-full p-3">
+                          <Search className="text-muted-foreground h-6 w-6" />
                         </div>
-                        {course.location && (
-                          <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4" />
-                            <span>{course.location}</span>
-                          </div>
-                        )}
+                        <h3 className="mb-1 text-lg font-medium">
+                          Tidak ditemukan
+                        </h3>
+                        <p className="text-muted-foreground max-w-md text-sm">
+                          Tidak ada mata kuliah yang sesuai dengan kriteria
+                          pencarian Anda.
+                        </p>
                       </div>
-                      <div className="mt-4 flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="gap-1"
-                          onClick={() => openCourseDetail(course.id)}
-                        >
-                          <span>Detail</span>
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="gap-1"
-                          onClick={() => registerCourse(course)}
-                        >
-                          <CheckCircle className="h-4 w-4" />
-                          <span>Ambil</span>
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                  {filteredAvailableCourses.length === 0 && (
-                    <div className="col-span-full flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
-                      <div className="bg-muted mb-3 rounded-full p-3">
-                        <Search className="text-muted-foreground h-6 w-6" />
-                      </div>
-                      <h3 className="mb-1 text-lg font-medium">
-                        Tidak ditemukan
-                      </h3>
-                      <p className="text-muted-foreground max-w-md text-sm">
-                        Tidak ada mata kuliah yang sesuai dengan kriteria
-                        pencarian Anda.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                </ScrollArea>
               </div>
             </div>
           </TabsContent>
         </Tabs>
       </CardContent>
       <CardFooter className="flex items-center justify-between border-t p-4">
-        <div className="text-muted-foreground flex items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
           <div className="flex items-center gap-1">
             <div className="bg-primary h-3 w-3 rounded-full"></div>
             <span>Kuliah</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="h-3 w-3 rounded-full bg-blue-500"></div>
+            <div className="h-3 w-3 rounded-full bg-violet-500"></div>
             <span>Praktikum</span>
           </div>
           <div className="flex items-center gap-1">
@@ -1048,10 +1256,16 @@ export function CalendarView() {
             <span>Deadline</span>
           </div>
         </div>
-        <div className="text-muted-foreground text-sm">
-          Total SKS:{" "}
-          {courses.reduce((total, course) => total + (course.credits || 0), 0)}
-          /24
+        <div className="flex items-center gap-2">
+          <Layers className="text-muted-foreground h-4 w-4" />
+          <span className="text-muted-foreground text-sm font-medium">
+            {courses.length} Mata Kuliah •{" "}
+            {courses.reduce(
+              (total, course) => total + (course.credits || 0),
+              0
+            )}{" "}
+            SKS
+          </span>
         </div>
       </CardFooter>
 
@@ -1097,14 +1311,16 @@ export function CalendarView() {
                   {selectedCourse.title}
                 </h3>
                 <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                  <span>{selectedCourse.courseCode}</span>
+                  <span className="font-medium">
+                    {selectedCourse.courseCode}
+                  </span>
                   {selectedCourse.credits && (
                     <span>({selectedCourse.credits} SKS)</span>
                   )}
                 </div>
               </div>
 
-              <div className="rounded-lg border p-4">
+              <div className="bg-muted/30 rounded-lg border p-4">
                 <div className="mb-4 grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-muted-foreground text-xs">Jadwal</p>
@@ -1209,7 +1425,7 @@ export function CalendarView() {
                 <Label htmlFor="courseCode">Kode Mata Kuliah</Label>
                 <Input
                   id="courseCode"
-                  placeholder="Contoh: CS101"
+                  placeholder="Contoh: MED101"
                   value={params.courseCode || ""}
                   onChange={changeValue}
                 />
@@ -1303,7 +1519,7 @@ export function CalendarView() {
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="lab" id="course-lab" />
                     <Label htmlFor="course-lab" className="flex items-center">
-                      <GraduationCap className="mr-2 h-4 w-4 text-violet-600" />
+                      <Microscope className="mr-2 h-4 w-4 text-violet-600" />
                       Praktikum
                     </Label>
                   </div>

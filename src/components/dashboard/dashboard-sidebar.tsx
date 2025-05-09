@@ -5,15 +5,19 @@ import { usePathname } from "next/navigation";
 import type * as React from "react";
 
 import {
-  BarChart3,
-  Book,
-  ClipboardList,
+  CalendarDays,
   Command,
-  CreditCard,
-  FileText,
-  Laptop,
+  FileBarChart,
+  GraduationCap,
+  Group,
   LayoutDashboard,
+  ListChecks,
+  MessageSquareText,
+  NotebookPen,
+  ScrollText,
+  SearchCheck,
   Settings,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -27,6 +31,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { Separator } from "../ui/separator";
+import { WhatsappLogo } from "../whatsapp-integration/whatsapp-logo";
 import { NavMain } from "./nav-main";
 
 const data = {
@@ -37,41 +42,63 @@ const data = {
       icon: LayoutDashboard,
     },
   ],
-  settings: {
-    title: "Settings",
-    url: "/dashboard/settings",
-    icon: Settings,
-  },
+  settings: [
+    {
+      title: "Settings",
+      url: "/dashboard/settings",
+      icon: Settings,
+    },
+    {
+      title: "WhatsApp",
+      url: "/dashboard/whatsapp",
+      icon: WhatsappLogo,
+    },
+  ],
   navContents: [
     {
       title: "KRS",
       url: "/dashboard/krs",
-      icon: Book,
+      icon: NotebookPen,
+    },
+    {
+      title: "Jadwal Kuliah",
+      url: "/dashboard/jadwal-kuliah",
+      icon: CalendarDays,
     },
     {
       title: "Transkrip",
       url: "/dashboard/transkrip",
-      icon: FileText,
+      icon: ScrollText,
     },
     {
       title: "Pembayaran",
       url: "/dashboard/pembayaran",
-      icon: CreditCard,
+      icon: Wallet,
     },
     {
       title: "E-learning",
       url: "/dashboard/e-learning",
-      icon: Laptop,
+      icon: GraduationCap,
     },
     {
       title: "Kuisioner",
       url: "/dashboard/kuisioner",
-      icon: ClipboardList,
+      icon: ListChecks,
     },
     {
       title: "Tracer Study",
       url: "/dashboard/tracer-study",
-      icon: BarChart3,
+      icon: SearchCheck,
+    },
+    {
+      title: "Forum Diskusi",
+      url: "/dashboard/forum-diskusi",
+      icon: MessageSquareText,
+    },
+    {
+      title: "Pelaporan",
+      url: "/dashboard/pelaporan",
+      icon: FileBarChart,
     },
   ],
 };
@@ -110,11 +137,7 @@ export function DashboardSidebar({
           label="Management Akademik"
           pathname={pathname}
         />
-        <NavMain
-          contents={[data.settings]}
-          label="Sistem"
-          pathname={pathname}
-        />
+        <NavMain contents={data.settings} label="Sistem" pathname={pathname} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

@@ -12,6 +12,7 @@ import {
   History,
   LayoutDashboard,
   Plus,
+  Printer,
   Receipt,
   Wallet,
 } from "lucide-react";
@@ -27,6 +28,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import { DashboardHeader } from "../header";
 import { PaymentChart } from "./payment-chart";
 
 export function PembayaranPage() {
@@ -96,20 +98,15 @@ export function PembayaranPage() {
   return (
     <div className="container mx-auto mt-10 space-y-8">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Pembayaran</h2>
-          <p className="text-muted-foreground">
-            Kelola pembayaran dan keuangan Anda
-          </p>
-        </div>
+        <DashboardHeader
+          heading="Pembayaran"
+          text="Kelola pembayaran dan tagihan Anda"
+          semester="Semester 8 - 2024/2025"
+        />
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
-          </Button>
-          <Button variant="outline" size="sm">
-            <Download className="mr-2 h-4 w-4" />
-            Unduh Laporan
+            <Printer className="mr-2 h-4 w-4" />
+            Cetak Laporan
           </Button>
           <Button size="sm">
             <Plus className="mr-2 h-4 w-4" />
@@ -279,7 +276,7 @@ export function PembayaranPage() {
                   ))}
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="mt-auto">
                 <Button
                   variant="ghost"
                   className="w-full"
@@ -509,7 +506,7 @@ export function PembayaranPage() {
                     <CardTitle className="text-base">Bank BNI</CardTitle>
                     <CardDescription>Virtual Account</CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="mt-auto">
                     <p className="text-muted-foreground text-sm">
                       <span className="font-medium">Nomor VA:</span> 8888 1234
                       5678 9012

@@ -29,6 +29,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
+import { DashboardHeader } from "../header";
+
 export function KuisionerPage() {
   const [activeTab, setActiveTab] = useState("tersedia");
 
@@ -171,28 +173,11 @@ export function KuisionerPage() {
 
   return (
     <div className="container mx-auto mt-10 space-y-8">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Kuisioner</h2>
-          <p className="text-muted-foreground">
-            Pengisian kuisioner evaluasi pembelajaran dan dosen
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="relative w-full md:w-auto">
-            <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
-            <Input
-              type="search"
-              placeholder="Cari kuisioner..."
-              className="w-full pl-8 md:w-[200px] lg:w-[300px]"
-            />
-          </div>
-          <Button variant="outline" size="sm" className="cursor-pointer">
-            <Filter className="mr-2 h-4 w-4" />
-            Filter
-          </Button>
-        </div>
-      </div>
+      <DashboardHeader
+        heading="Kuisioner"
+        text="Isi kuisioner untuk evaluasi pembelajaran"
+        semester="Semester 8 - 2024/2025"
+      />
 
       {selectedKuisioner ? (
         <Card className="border-none shadow-lg transition-all duration-300 hover:shadow-xl">

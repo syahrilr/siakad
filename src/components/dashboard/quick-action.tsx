@@ -4,6 +4,7 @@ import {
   BookOpen,
   Calendar,
   Clock,
+  DollarSign,
   FileText,
   Settings,
   User,
@@ -41,17 +42,17 @@ export function QuickActions() {
     },
     {
       icon: Calendar,
-      label: "Jadwal",
-      href: "/dashboard/jadwal",
+      label: "Jadwal Kuliah",
+      href: "/dashboard/jadwal-kuliah",
       color: "text-emerald-600 dark:text-emerald-400",
       bgColor: "bg-emerald-50 dark:bg-emerald-950/50",
       borderColor:
         "group-hover:border-emerald-300 dark:group-hover:border-emerald-800",
     },
     {
-      icon: Clock,
-      label: "Presensi",
-      href: "/dashboard/presensi",
+      icon: DollarSign,
+      label: "Pembayaran",
+      href: "/dashboard/pembayaran",
       color: "text-amber-600 dark:text-amber-400",
       bgColor: "bg-amber-50 dark:bg-amber-950/50",
       borderColor:

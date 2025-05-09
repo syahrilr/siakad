@@ -67,7 +67,7 @@ export function GradeDistribution() {
   };
 
   return (
-    <Card className="overflow-hidden border shadow-md transition-all duration-300 hover:shadow-lg dark:border-slate-800">
+    <Card className="max-h-[480px] overflow-hidden border shadow-md transition-all duration-300 hover:shadow-lg dark:border-slate-800">
       <CardHeader className="bg-card pb-3">
         <CardTitle className="text-lg font-semibold">
           Distribusi Nilai

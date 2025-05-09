@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   CalendarRange,
@@ -9,8 +9,11 @@ import {
   Filter,
   GraduationCap,
   LineChart,
+  Printer,
   Search,
 } from "lucide-react";
+import { useReactToPrint } from "react-to-print";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +24,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -33,8 +45,20 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import { DashboardHeader } from "../header";
+import { TranskripFullPrintContent } from "./print-full-content";
+import { TranskripSemesterPrintContent } from "./print-semester-content";
+import { transkripPrintStyles } from "./print-style";
+
 export function TranskripPage() {
   const [activeTab, setActiveTab] = useState("lengkap");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [selectedSemester, setSelectedSemester] = useState<string | null>(null);
+
+  // Refs for printing
+  const fullTranskripRef = useRef<HTMLDivElement>(null);
+  const semesterTranskripRef = useRef<HTMLDivElement>(null);
 
   // Dummy data for transkrip
   const transkripInfo = {
@@ -53,152 +77,175 @@ export function TranskripPage() {
     {
       semester: "Ganjil 2021/2022",
       ip: 3.65,
-      sks: 20,
+      sks: 22,
       mataKuliah: [
         {
-          kode: "IF1001",
-          nama: "Pemrograman Dasar",
+          kode: "MD1001",
+          nama: "Anatomi Dasar",
           sks: 4,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF1002",
-          nama: "Matematika Diskrit",
+          kode: "MD1002",
+          nama: "Biokimia Medis",
           sks: 3,
           nilai: "B+",
           bobot: 3.5,
         },
+        { kode: "MD1003", nama: "Histologi", sks: 2, nilai: "A-", bobot: 3.7 },
         {
-          kode: "IF1003",
-          nama: "Pengantar Teknologi Informasi",
-          sks: 2,
-          nilai: "A-",
-          bobot: 3.7,
-        },
-        {
-          kode: "IF1004",
-          nama: "Kalkulus",
+          kode: "MD1004",
+          nama: "Etika Kedokteran",
           sks: 3,
           nilai: "B",
           bobot: 3.0,
         },
         {
-          kode: "IF1005",
-          nama: "Bahasa Inggris",
+          kode: "MD1005",
+          nama: "Bahasa Inggris Medis",
           sks: 2,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF1006",
-          nama: "Logika Informatika",
+          kode: "MD1006",
+          nama: "Ilmu Sosial dan Kesehatan",
           sks: 3,
           nilai: "B+",
           bobot: 3.5,
         },
         {
-          kode: "IF1007",
-          nama: "Etika Profesi",
+          kode: "MD1007",
+          nama: "Filsafat Ilmu Kedokteran",
           sks: 3,
           nilai: "A-",
           bobot: 3.7,
+        },
+        {
+          kode: "MD1008",
+          nama: "Pengantar Ilmu Kesehatan",
+          sks: 2,
+          nilai: "A",
+          bobot: 4.0,
         },
       ],
     },
     {
       semester: "Genap 2021/2022",
       ip: 3.8,
-      sks: 20,
+      sks: 22,
       mataKuliah: [
         {
-          kode: "IF1008",
-          nama: "Struktur Data",
+          kode: "MD1009",
+          nama: "Fisiologi Dasar",
           sks: 4,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF1009",
-          nama: "Arsitektur Komputer",
+          kode: "MD1010",
+          nama: "Parasitologi",
           sks: 3,
           nilai: "A-",
           bobot: 3.7,
         },
         {
-          kode: "IF1010",
-          nama: "Aljabar Linear",
+          kode: "MD1011",
+          nama: "Mikrobiologi Medis",
           sks: 3,
           nilai: "B+",
           bobot: 3.5,
         },
         {
-          kode: "IF1011",
-          nama: "Pemrograman Berorientasi Objek",
+          kode: "MD1012",
+          nama: "Komunikasi Efektif dalam Praktik Klinik",
           sks: 4,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF1012",
-          nama: "Statistika",
+          kode: "MD1013",
+          nama: "Genetika Medis",
           sks: 3,
           nilai: "A-",
           bobot: 3.7,
         },
         {
-          kode: "IF1013",
-          nama: "Bahasa Indonesia",
+          kode: "MD1014",
+          nama: "Bahasa Indonesia Ilmiah",
           sks: 3,
           nilai: "A",
           bobot: 4.0,
+        },
+        {
+          kode: "MD1015",
+          nama: "Pendidikan Kedokteran Berbasis Masalah",
+          sks: 2,
+          nilai: "A",
+          bobot: 4.0,
+        },
+        {
+          kode: "MD1016",
+          nama: "Biologi Sel Medis",
+          sks: 2,
+          nilai: "A-",
+          bobot: 3.7,
         },
       ],
     },
     {
       semester: "Ganjil 2022/2023",
       ip: 3.7,
-      sks: 20,
+      sks: 22,
       mataKuliah: [
+        { kode: "MD2001", nama: "Imunologi", sks: 4, nilai: "A-", bobot: 3.7 },
         {
-          kode: "IF2001",
-          nama: "Algoritma dan Pemrograman",
-          sks: 4,
-          nilai: "A-",
-          bobot: 3.7,
-        },
-        {
-          kode: "IF2002",
-          nama: "Basis Data",
+          kode: "MD2002",
+          nama: "Farmakologi Dasar",
           sks: 4,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF2003",
-          nama: "Jaringan Komputer",
+          kode: "MD2003",
+          nama: "Patologi Anatomi",
           sks: 3,
           nilai: "B+",
           bobot: 3.5,
         },
         {
-          kode: "IF2004",
-          nama: "Sistem Operasi",
+          kode: "MD2004",
+          nama: "Patofisiologi",
           sks: 3,
           nilai: "A-",
           bobot: 3.7,
         },
         {
-          kode: "IF2005",
-          nama: "Interaksi Manusia dan Komputer",
+          kode: "MD2005",
+          nama: "Dasar-Dasar Ilmu Bedah",
           sks: 3,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF2006",
-          nama: "Kecerdasan Buatan",
+          kode: "MD2006",
+          nama: "Dasar-Dasar Ilmu Penyakit Dalam",
           sks: 3,
+          nilai: "B+",
+          bobot: 3.5,
+        },
+        {
+          kode: "MD2007",
+          nama: "Psikologi Kesehatan",
+          sks: 1,
+          nilai: "A",
+          bobot: 4.0,
+        },
+        {
+          kode: "MD2008",
+          nama: "Gizi dan Metabolisme",
+          sks: 1,
           nilai: "B+",
           bobot: 3.5,
         },
@@ -207,49 +254,63 @@ export function TranskripPage() {
     {
       semester: "Genap 2022/2023",
       ip: 3.85,
-      sks: 20,
+      sks: 22,
       mataKuliah: [
         {
-          kode: "IF2007",
-          nama: "Pemrograman Web",
+          kode: "MD2009",
+          nama: "Ilmu Penyakit Infeksi",
           sks: 3,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF2008",
-          nama: "Pemrograman Mobile",
+          kode: "MD2010",
+          nama: "Ilmu Kesehatan Masyarakat",
           sks: 3,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF2009",
-          nama: "Keamanan Informasi",
+          kode: "MD2011",
+          nama: "Ilmu Penyakit Paru",
           sks: 3,
           nilai: "A-",
           bobot: 3.7,
         },
         {
-          kode: "IF2010",
-          nama: "Data Mining",
+          kode: "MD2012",
+          nama: "Ilmu Kebidanan dan Kandungan",
           sks: 3,
           nilai: "A",
           bobot: 4.0,
         },
         {
-          kode: "IF2011",
-          nama: "Rekayasa Perangkat Lunak",
+          kode: "MD2013",
+          nama: "Ilmu Kardiologi",
           sks: 4,
           nilai: "A-",
           bobot: 3.7,
         },
         {
-          kode: "IF2012",
-          nama: "Teori Bahasa dan Automata",
+          kode: "MD2014",
+          nama: "Ilmu Saraf Dasar",
           sks: 4,
           nilai: "B+",
           bobot: 3.5,
+        },
+        {
+          kode: "MD2015",
+          nama: "Ilmu Forensik",
+          sks: 1,
+          nilai: "A",
+          bobot: 4.0,
+        },
+        {
+          kode: "MD2016",
+          nama: "Ilmu Rehabilitasi Medik",
+          sks: 1,
+          nilai: "A-",
+          bobot: 3.7,
         },
       ],
     },
@@ -281,24 +342,125 @@ export function TranskripPage() {
     }
   };
 
+  // Filter courses based on search query
+  const filteredCourses = nilaiPerSemester.flatMap((semester) =>
+    semester.mataKuliah
+      .filter(
+        (mk) =>
+          mk.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          mk.kode.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .map((mk) => ({ ...mk, semester: semester.semester }))
+  );
+
+  // Handle printing full transcript
+  const handlePrintFullTranskrip = useReactToPrint({
+    contentRef: fullTranskripRef,
+    documentTitle: `Transkrip Nilai - ${transkripInfo.nama}`,
+    pageStyle: transkripPrintStyles,
+    onBeforePrint: () => {
+      setIsPrinting(true);
+      return Promise.resolve();
+    },
+    onAfterPrint: () => {
+      setIsPrinting(false);
+      toast.success("Transkrip berhasil diunduh", {
+        richColors: true,
+        duration: 1300,
+      });
+    },
+  });
+
+  // Handle printing semester transcript
+  const handlePrintSemesterTranskrip = useReactToPrint({
+    contentRef: semesterTranskripRef,
+    documentTitle: `Transkrip Nilai ${selectedSemester} - ${transkripInfo.nama}`,
+    pageStyle: transkripPrintStyles,
+    onBeforePrint: () => {
+      setIsPrinting(true);
+      return Promise.resolve();
+    },
+    onAfterPrint: () => {
+      setIsPrinting(false);
+      toast.success("Transkrip semester berhasil diunduh", {
+        richColors: true,
+        duration: 1300,
+      });
+    },
+  });
+
+  // Handle printing specific semester
+  const printSemesterTranskrip = (semester: string) => {
+    setSelectedSemester(semester);
+    setTimeout(() => {
+      handlePrintSemesterTranskrip();
+    }, 100);
+  };
+
   return (
     <div className="container mx-auto mt-10 space-y-8">
+      <style>{transkripPrintStyles}</style>
+
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Transkrip Nilai</h2>
-          <p className="text-muted-foreground">
-            Riwayat nilai akademik dan transkrip
-          </p>
-        </div>
+        <DashboardHeader
+          heading="Transkrip Nilai"
+          text="Lihat dan unduh transkrip nilai Anda"
+          semester="Semester 8 - 2024/2025"
+        />
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm">
             <Filter className="mr-2 h-4 w-4" />
             Filter
           </Button>
-          <Button variant="outline" size="sm">
-            <Download className="mr-2 h-4 w-4" />
-            Unduh Transkrip
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Printer className="mr-2 h-4 w-4" />
+                Cetak Transkrip
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Unduh Transkrip</DialogTitle>
+                <DialogDescription>
+                  Pilih jenis transkrip yang ingin diunduh
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <Button
+                  onClick={handlePrintFullTranskrip}
+                  className="w-full"
+                  disabled={isPrinting}
+                >
+                  <FileText className="mr-2 h-4 w-4" />
+                  Transkrip Lengkap
+                </Button>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background text-muted-foreground px-2">
+                      Atau pilih semester
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  {nilaiPerSemester.map((semester) => (
+                    <Button
+                      key={semester.semester}
+                      variant="outline"
+                      onClick={() => printSemesterTranskrip(semester.semester)}
+                      disabled={isPrinting}
+                    >
+                      <CalendarRange className="mr-2 h-4 w-4" />
+                      {semester.semester}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
@@ -395,6 +557,8 @@ export function TranskripPage() {
                       type="search"
                       placeholder="Cari mata kuliah..."
                       className="w-full pl-8 md:w-[200px] lg:w-[300px]"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   </div>
                 </div>
@@ -413,20 +577,37 @@ export function TranskripPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {nilaiPerSemester.flatMap((semester) =>
-                    semester.mataKuliah.map((mk) => (
-                      <TableRow key={`${mk.kode}-${semester.semester}`}>
-                        <TableCell className="font-medium">{mk.kode}</TableCell>
-                        <TableCell>{mk.nama}</TableCell>
-                        <TableCell>{mk.sks}</TableCell>
-                        <TableCell className={getNilaiColor(mk.nilai)}>
-                          {mk.nilai}
-                        </TableCell>
-                        <TableCell>{mk.bobot.toFixed(1)}</TableCell>
-                        <TableCell>{semester.semester}</TableCell>
-                      </TableRow>
-                    ))
-                  )}
+                  {searchQuery
+                    ? filteredCourses.map((mk) => (
+                        <TableRow key={`${mk.kode}-${mk.semester}`}>
+                          <TableCell className="font-medium">
+                            {mk.kode}
+                          </TableCell>
+                          <TableCell>{mk.nama}</TableCell>
+                          <TableCell>{mk.sks}</TableCell>
+                          <TableCell className={getNilaiColor(mk.nilai)}>
+                            {mk.nilai}
+                          </TableCell>
+                          <TableCell>{mk.bobot.toFixed(1)}</TableCell>
+                          <TableCell>{mk.semester}</TableCell>
+                        </TableRow>
+                      ))
+                    : nilaiPerSemester.flatMap((semester) =>
+                        semester.mataKuliah.map((mk) => (
+                          <TableRow key={`${mk.kode}-${semester.semester}`}>
+                            <TableCell className="font-medium">
+                              {mk.kode}
+                            </TableCell>
+                            <TableCell>{mk.nama}</TableCell>
+                            <TableCell>{mk.sks}</TableCell>
+                            <TableCell className={getNilaiColor(mk.nilai)}>
+                              {mk.nilai}
+                            </TableCell>
+                            <TableCell>{mk.bobot.toFixed(1)}</TableCell>
+                            <TableCell>{semester.semester}</TableCell>
+                          </TableRow>
+                        ))
+                      )}
                 </TableBody>
               </Table>
             </CardContent>
@@ -441,7 +622,13 @@ export function TranskripPage() {
                   {transkripInfo.ipk.toFixed(2)}
                 </span>
               </div>
-              <Button variant="outline" size="sm" className="cursor-pointer">
+              <Button
+                variant="outline"
+                size="sm"
+                className="cursor-pointer"
+                onClick={handlePrintFullTranskrip}
+                disabled={isPrinting}
+              >
                 <Download className="mr-2 h-4 w-4" />
                 Unduh Transkrip
               </Button>
@@ -497,7 +684,13 @@ export function TranskripPage() {
                   </span>{" "}
                   | <span className="font-medium">{semester.sks} SKS</span>
                 </div>
-                <Button variant="outline" size="sm" className="cursor-pointer">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={() => printSemesterTranskrip(semester.semester)}
+                  disabled={isPrinting}
+                >
                   <Download className="mr-2 h-4 w-4" />
                   Unduh
                 </Button>
@@ -506,6 +699,27 @@ export function TranskripPage() {
           ))}
         </TabsContent>
       </Tabs>
+
+      {/* Hidden printable content for full transcript */}
+      <div className="hidden">
+        <div ref={fullTranskripRef}>
+          <TranskripFullPrintContent
+            transkripInfo={transkripInfo}
+            nilaiPerSemester={nilaiPerSemester}
+          />
+        </div>
+      </div>
+
+      {/* Hidden printable content for semester transcript */}
+      <div className="hidden">
+        <div ref={semesterTranskripRef}>
+          <TranskripSemesterPrintContent
+            transkripInfo={transkripInfo}
+            nilaiPerSemester={nilaiPerSemester}
+            selectedSemester={selectedSemester}
+          />
+        </div>
+      </div>
     </div>
   );
 }
