@@ -13,9 +13,10 @@ import {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const thread = await getThreadById(params.id);
+  const { id } = await params;
+  const thread = await getThreadById(id);
 
   if (!thread) {
     return {
@@ -36,16 +37,16 @@ export async function generateMetadata({
   };
 }
 
-// ✅ Ubah ke async function
 export default async function ThreadPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const thread = await getThreadById(params.id);
+  const { id } = await params;
+  const thread = await getThreadById(id);
 
   if (!thread) {
-    notFound();
+    notFound(); // This will trigger the not-found page [^3]
   }
 
   const author = await getUserById(thread.authorId);
