@@ -133,15 +133,15 @@ const getFileIcon = (fileType: string) => {
 };
 
 // Define the props type for the page component
-type PageProps = {
-  params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
 
-export default async function SubmissionDetailPage({ params }: PageProps) {
+export default async function SubmissionDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   // Find the submission based on the ID
-  const submission =
-    submissions.find((s) => s.id === params.id) || submissions[0];
+  const submission = submissions.find((s) => s.id === id) || submissions[0];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
