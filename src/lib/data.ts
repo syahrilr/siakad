@@ -48,6 +48,7 @@ export type User = {
     isSubmitted: boolean
     submissionId?: string
     grade?: number
+    weight?: number
     feedback?: string
     attachments: string[]
   }
@@ -467,6 +468,7 @@ export type User = {
       isSubmitted: true,
       submissionId: "submission-1",
       grade: 85,
+      weight: 25,
       feedback:
         "Laporan kasus sangat komprehensif dan analisis diagnostik sangat baik. Pertimbangkan untuk menambahkan lebih banyak literatur terkini untuk mendukung rencana tatalaksana yang Anda usulkan.",
       attachments: ["Panduan_Laporan_Kasus.pdf", "Template_Laporan.docx"],
@@ -484,6 +486,7 @@ export type User = {
       isSubmitted: true,
       submissionId: "submission-2",
       grade: 78,
+      weight: 25,
       feedback:
         "Presentasi kasus cukup baik, namun perlu penjelasan lebih detail mengenai teknik operasi yang dipilih. Diskusi mengenai alternatif tindakan dan evidence-based medicine perlu diperdalam.",
       attachments: ["Panduan_Presentasi_Kasus.pdf"],

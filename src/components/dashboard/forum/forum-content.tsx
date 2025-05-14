@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { getUniqueCategories, getUniqueTags, threads } from "@/lib/data";
 
+import { DashboardHeader } from "../header";
 import { ThreadList } from "./thread-list";
 
 export default function ForumContent() {
@@ -91,12 +92,10 @@ export default function ForumContent() {
   return (
     <div className="container mx-auto py-10">
       <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Forum Diskusi</h1>
-          <p className="text-muted-foreground">
-            Diskusikan topik medis dengan komunitas Medscholar
-          </p>
-        </div>
+        <DashboardHeader
+          heading="Forum Diskusi"
+          text="Diskusikan topik medis dengan komunitas Medscholar"
+        />
         <div className="flex gap-2">
           <Link href="/dashboard/forum-diskusi/create">
             <Button>

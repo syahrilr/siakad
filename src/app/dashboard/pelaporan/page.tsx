@@ -1,8 +1,5 @@
+import ReportContent from "@/components/dashboard/reports/report-content";
+
 export default function PelaporanPage() {
-  return (
-    <div>
-      <h1>Pelaporan</h1>
-      <p>Halaman pelaporan untuk admin</p>
-    </div>
-  );
+  return <ReportContent />;
 }
