@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import {
   AlertCircle,
@@ -24,11 +28,6 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-
-export const metadata = {
-  title: "Ajukan Klarifikasi Nilai | SIAKAD",
-  description: "Halaman ajukan klarifikasi nilai",
-};
 
 // Data from the provided assignments
 const assignments = [
@@ -92,19 +91,18 @@ const assignments = [
   },
 ];
 
-// Define the correct params type for Next.js App Router
-interface PageParams {
-  id: string;
-}
+export default function ClarificationRequestPage() {
+  const params = useParams();
+  const [assignment, setAssignment] = useState(assignments[0]);
 
-export default function ClarificationRequestPage({
-  params,
-}: {
-  params: PageParams;
-}) {
-  // Find the assignment based on the ID
-  const assignment =
-    assignments.find((a) => a.id === params.id) || assignments[0];
+  // Find the assignment based on the ID when params change
+  useEffect(() => {
+    if (params.id) {
+      const foundAssignment =
+        assignments.find((a) => a.id === params.id) || assignments[0];
+      setAssignment(foundAssignment);
+    }
+  }, [params.id]);
 
   // Format date to readable format
   const formatDate = (dateString: string) => {
