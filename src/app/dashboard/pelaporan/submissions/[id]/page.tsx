@@ -112,7 +112,9 @@ interface SubmissionDetailPageProps {
   params: { id: string };
 }
 
-export const SubmissionDetailPage = ({ params }: SubmissionDetailPageProps) => {
+export default function SubmissionDetailPage({
+  params,
+}: SubmissionDetailPageProps) {
   // Find the submission based on the ID
   const submission =
     submissions.find((s) => s.id === params.id) || submissions[0];
@@ -405,4 +407,4 @@ export const SubmissionDetailPage = ({ params }: SubmissionDetailPageProps) => {
       </main>
     </div>
   );
-};
+}
