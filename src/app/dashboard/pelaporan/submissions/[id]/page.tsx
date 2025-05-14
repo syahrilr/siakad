@@ -108,13 +108,11 @@ const submissions = [
   },
 ];
 
-interface SubmissionDetailPageProps {
-  params: { id: string };
-}
-
-export default function SubmissionDetailPage({
+export default async function SubmissionDetailPage({
   params,
-}: SubmissionDetailPageProps) {
+}: {
+  params: { id: string };
+}) {
   // Find the submission based on the ID
   const submission =
     submissions.find((s) => s.id === params.id) || submissions[0];
