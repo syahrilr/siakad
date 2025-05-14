@@ -20,6 +20,11 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
+export const metadata = {
+  title: "Detail Pengumpulan | SIAKAD",
+  description: "Halaman detail pengumpulan tugas",
+};
+
 // Mock submission data based on the assignments
 const submissions = [
   {

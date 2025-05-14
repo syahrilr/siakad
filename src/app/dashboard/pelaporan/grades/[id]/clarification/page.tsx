@@ -25,6 +25,11 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 
+export const metadata = {
+  title: "Ajukan Klarifikasi Nilai | SIAKAD",
+  description: "Halaman ajukan klarifikasi nilai",
+};
+
 // Data from the provided assignments
 const assignments = [
   {
@@ -87,10 +92,15 @@ const assignments = [
   },
 ];
 
+// Define the correct params type for Next.js App Router
+interface PageParams {
+  id: string;
+}
+
 export default function ClarificationRequestPage({
   params,
 }: {
-  params: { id: string };
+  params: PageParams;
 }) {
   // Find the assignment based on the ID
   const assignment =

@@ -38,6 +38,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+export const metadata = {
+  title: "Tugas dan Penilaian | SIAKAD",
+  description: "Halaman tugas dan penilaian",
+};
+
 // Define the Assignment type based on the provided data structure
 interface Assignment {
   id: string;
