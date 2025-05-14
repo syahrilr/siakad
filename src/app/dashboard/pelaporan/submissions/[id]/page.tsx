@@ -108,39 +108,40 @@ const submissions = [
   },
 ];
 
-export default async function SubmissionDetailPage({
-  params,
-}: {
+// Helper functions
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+};
+
+const getFileIcon = (fileType: string) => {
+  if (fileType.includes("pdf")) {
+    return <FileText className="h-5 w-5 text-rose-600" />;
+  } else if (fileType.includes("presentation")) {
+    return <FileText className="h-5 w-5 text-orange-600" />;
+  } else if (fileType.includes("word")) {
+    return <FileText className="h-5 w-5 text-blue-600" />;
+  } else {
+    return <FileText className="h-5 w-5 text-slate-600" />;
+  }
+};
+
+// Define the props type for the page component
+type PageProps = {
   params: { id: string };
-}) {
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export default async function SubmissionDetailPage({ params }: PageProps) {
   // Find the submission based on the ID
   const submission =
     submissions.find((s) => s.id === params.id) || submissions[0];
-
-  // Format date to readable format
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
-
-  // Get file icon based on file type
-  const getFileIcon = (fileType: string) => {
-    if (fileType.includes("pdf")) {
-      return <FileText className="h-5 w-5 text-rose-600" />;
-    } else if (fileType.includes("presentation")) {
-      return <FileText className="h-5 w-5 text-orange-600" />;
-    } else if (fileType.includes("word")) {
-      return <FileText className="h-5 w-5 text-blue-600" />;
-    } else {
-      return <FileText className="h-5 w-5 text-slate-600" />;
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
