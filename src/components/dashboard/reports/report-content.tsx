@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { CalendarDays, FileText, GraduationCap, Users } from "lucide-react";
+import { CalendarDays, FileText, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -226,7 +226,7 @@ export default function ReportContent() {
                   </h3>
                   <p className="text-muted-foreground mt-1 text-sm">
                     Departemen Kardiologi akan mengadakan seminar dengan tema
-                    "Perkembangan Terbaru dalam Penanganan Gagal Jantung" pada
+                    {"Perkembangan Terbaru dalam Penanganan Gagal Jantung"} pada
                     tanggal 15 Juni 2023. Mahasiswa diharapkan untuk menghadiri
                     seminar ini.
                   </p>

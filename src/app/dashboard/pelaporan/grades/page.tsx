@@ -5,12 +5,10 @@ import { useState } from "react";
 
 import {
   AlertCircle,
-  Calendar,
   CheckCircle,
   ChevronDown,
   ChevronUp,
   Clock,
-  FileText,
   XCircle,
 } from "lucide-react";
 

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 
 interface AssignmentCardProps {
-  id: string;
   title: string;
   description: string;
   dueDate: string;
@@ -20,7 +19,6 @@ interface AssignmentCardProps {
 }
 
 export function AssignmentCard({
-  id,
   title,
   description,
   dueDate,
